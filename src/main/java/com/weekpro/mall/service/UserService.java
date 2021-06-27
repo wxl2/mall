@@ -1,9 +1,12 @@
 package com.weekpro.mall.service;
 
-import com.weekpro.mall.User;
+import com.weekpro.mall.entity.User;
 import com.weekpro.mall.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author wxl
@@ -15,21 +18,22 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserDao userDao;
-    public String login(User user){
+    public User login(User user){
+        Map<String,Object> map_= new HashMap<String,Object>();
         try {
             User userExist = (User) userDao.getUserByUserName(user.getUsername());
             if(userExist!=null){
                 if(user.getPasswd().equals(userExist.getPasswd())){
-                    return userExist.getRole();
+                    return userExist;
                 }else {
-                    return "-1";
+                    return null;
                 }
             }else {
-                return "-1";
+                return null;
             }
         }catch (Exception e){
             e.printStackTrace();
-            return e.getMessage();
+            return null;
         }
     }
 

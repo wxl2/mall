@@ -1,4 +1,4 @@
-package com.weekpro.mall;
+package com.weekpro.mall.entity;
 
 import lombok.Data;
 

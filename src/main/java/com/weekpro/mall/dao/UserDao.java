@@ -1,12 +1,9 @@
 package com.weekpro.mall.dao;
 
-import com.weekpro.mall.User;
+import com.weekpro.mall.entity.User;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
-import java.util.Map;
 
 /**
  * @author wxl

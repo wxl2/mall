@@ -23,7 +23,7 @@ public class RandomValidateCode {
     private int stringNum = 4;
 
     //获取验证码
-    @RequestMapping(value = "/login/getSysManageLoginCode",method = {RequestMethod.GET})
+    @RequestMapping(value = "/getSysManageLoginCode",method = {RequestMethod.GET})
     @ResponseBody
     public String getRandStringCode(HttpServletResponse response, HttpServletRequest request){
         response.setContentType("text/plain;charset=UTF-8");
