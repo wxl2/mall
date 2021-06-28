@@ -1,15 +1,15 @@
 package com.weekpro.mall.controller;
 
-import com.weekpro.mall.User;
+import com.weekpro.mall.entity.User;
 import com.weekpro.mall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author wxl
@@ -18,7 +18,6 @@ import java.util.*;
  * TODO
  */
 @RestController
-@RequestMapping(value = "/user")
 public class UserController {
     @Autowired
     UserService userService;
@@ -34,16 +33,18 @@ public class UserController {
             return res;
         }
         User user = new User(username,passwd,"");
-        String data = userService.login(user);
-        if(data.equals("-1")) {
+        User  data = userService.login(user);
+        if(data == null) {
             res.put("status", "falid");
             res.put("data", "用户名或密码错误");
-        }else if(data.equals("1")){
+        }else if(data.getRole().equals("1")){
             res.put("status", "success");
             res.put("data", "admin.html");
+            request.getSession().setAttribute("admin",user.getUsername());
         }else{
             res.put("status", "success");
             res.put("data", "user.html");
+            request.getSession().setAttribute("user",user.getUsername());
         }
         return res;
     }
