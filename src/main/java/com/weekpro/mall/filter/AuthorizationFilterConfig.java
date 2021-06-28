@@ -25,6 +25,7 @@ public class AuthorizationFilterConfig implements WebMvcConfigurer {
         filter.add("/getSysManageLoginCode");
         filter.add("/register");
         filter.add("/login");
+        filter.add("//");
         interceptorRegistration.excludePathPatterns(filter);
     }
 }
