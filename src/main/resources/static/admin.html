@@ -17,10 +17,6 @@
     <link rel="stylesheet" type="text/css" href="./css/iconfont.css">
     <script type="text/javascript" src="./js/jquery-1.11.3.min.js" ></script>
     <link rel="stylesheet" type="text/css" href="./layui/css/layui.css">
-    <!--[if lt IE 9]>
-    <script src="./js/html5shiv.min.js"></script>
-    <script src="./js/respond.min.js"></script>
-    <![endif]-->
     <script type="text/javascript" src="./layui/layui.js"></script>
     <!-- 滚动条插件 -->
     <link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css">
@@ -57,15 +53,14 @@
             <li>
                 <a class="menuFA" href="javascript:void(0)"><i class="iconfont icon-shangpin left"></i>商品管理<i class="iconfont icon-dajiantouyou right"></i></a>
                 <dl>
-                    <dt><a href="javascript:void(0)" onclick="menuCAClick('tgls/goodsManage/goodsType_list.html',this)">分类列表</a></dt>
-                    <dt><a href="javascript:void(0)" onclick="menuCAClick('tgls/goodsManage/goods_list.html',this)">基本商品库</a></dt>
-                    <dt><a href="javascript:void(0)" onclick="menuCAClick('tgls/goodsManage/goods_add.html',this)">添加商品</a></dt>
+                    <dt><a href="javascript:void(0)" onclick="menuCAClick('./admin/goodsListType.html',this)">分类列表</a></dt>
+                    <dt><a href="javascript:void(0)" onclick="menuCAClick('./admin/goodsList.html',this)">商品列表</a></dt>
                 </dl>
             </li>
             <li>
                 <a class="menuFA" href="javascript:void(0)"><i class="iconfont icon-icon left"></i>报表模块<i class="iconfont icon-dajiantouyou right"></i></a>
                 <dl>
-                    <dt><a href="javascript:void(0)" onclick="menuCAClick('tgls/reportForm/reportForm1.html',this)">订单统计报表</a></dt>
+                    <dt><a href="javascript:void(0)" onclick="menuCAClick('./admin/reportForm.html',this)">订单统计报表</a></dt>
                 </dl>
             </li>
         </ul>

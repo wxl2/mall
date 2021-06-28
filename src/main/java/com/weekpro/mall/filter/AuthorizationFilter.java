@@ -35,8 +35,8 @@ public class AuthorizationFilter implements HandlerInterceptor {
                 return false;
             }
         }else if(request.getSession().getAttribute("user")!=null){
-            String url = request.getServletPath();
-            if(url.equals("/admin.html")){
+            String url = request.getRequestURI();
+            if(url.indexOf("admin")!=-1){
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/json; charset=utf-8");
                 PrintWriter out = null;

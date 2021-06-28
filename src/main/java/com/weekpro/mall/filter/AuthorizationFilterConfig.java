@@ -14,12 +14,13 @@ import java.util.List;
  * @packageName com.weekpro.mall.filter
  * TODO
  */
-@Configuration
+//@Configuration
 public class AuthorizationFilterConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         InterceptorRegistration interceptorRegistration = registry.addInterceptor(new AuthorizationFilter());
         interceptorRegistration.addPathPatterns("/*");
+        interceptorRegistration.addPathPatterns("/admin/*");
         List<String> filter = new ArrayList<String>();
         filter.add("/index.html");
         filter.add("/getSysManageLoginCode");

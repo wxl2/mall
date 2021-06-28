@@ -187,3 +187,11 @@ body{
 	width: 100%;
 	overflow: hidden;
 }
+
+.head{
+	margin-top: 30px;
+	min-width: 1160px;
+	position: relative;
+	border-bottom: 1px solid #e0e0e0;
+	border:none;
+}
