@@ -19,11 +19,11 @@
 <body>
 <table class="layui-hide" id="applyList" lay-filter="applyList"></table>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">通过</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">拒绝</a>
+    <a class="layui-btn layui-btn-xs" lay-event="access">通过</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject">拒绝</a>
 </script>
 <script>
-    layui.use('table', function(){
+    layui.use(["table","jquery","layer","form"], function(){
         var table = layui.table;
         table.render({
             elem: '#applyList'
@@ -37,21 +37,39 @@
         });
 
         //工具栏事件
-        table.on('toolbar(test)', function(obj){
-            var checkStatus = table.checkStatus(obj.config.id);
+        table.on('tool(applyList)', function(obj){
+            var $ = layui.$;
+            var data = obj.data;
+            if(data.status == "已通过"||data.status == "已拒绝"){
+                layer.alert("已经处理");
+                return;
+            }
+            var params = {};
             switch(obj.event){
-                case 'getCheckData':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
+                case 'access':
+                    params.username = data.username;
+                    params.action = "1";
                     break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
-                    break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选': '未全选')
+                case 'reject':
+                    params.username = data.username;
+                    params.action = "2";
                     break;
             };
+            $.ajax({
+                type:'post',
+                url:'/jugeApplyStore',
+                dataType:'text',
+                data:JSON.stringify(params),
+                contentType:'application/json',
+                success:function (data) {
+                    layer.alert(data);
+                    table.reload('applyList', {})
+
+                },
+                error:function (data) {
+                    layer.alert("请求超时！")
+                }
+            });
         });
     });
 </script>

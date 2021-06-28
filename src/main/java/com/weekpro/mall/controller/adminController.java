@@ -5,6 +5,7 @@ import com.weekpro.mall.service.adminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -55,5 +56,13 @@ public class adminController {
             map.put("data",datalist);
         }
         return map;
+    }
+    @PostMapping("/jugeApplyStore")
+    public String jugeApplyStore(@RequestBody Map<String,Object> map){
+        String username = (String) map.get("username");
+        String status = (String) map.get("action");
+        if(adminService.setStatus(username,status) == 0)
+            return "操作成功";
+        return "操作失败";
     }
 }

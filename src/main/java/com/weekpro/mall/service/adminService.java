@@ -27,4 +27,13 @@ public class adminService {
         }
     }
 
+    public int setStatus(String username,String status){
+        try {
+            applyStore.setStatus(status,username);
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+        return 0;
+    }
 }
