@@ -41,6 +41,10 @@ public class UserController {
             res.put("status", "success");
             res.put("data", "admin.html");
             request.getSession().setAttribute("admin",user.getUsername());
+        }else if(data.getRole().equals("2")){
+            res.put("status", "success");
+            res.put("data", "user.html");
+            request.getSession().setAttribute("store",user.getUsername());
         }else{
             res.put("status", "success");
             res.put("data", "user.html");
@@ -60,5 +64,24 @@ public class UserController {
         if(userService.register(user)==0)
             return "注册成功";
         else return "注册失败";
+    }
+    @GetMapping("/getuser")
+    public Map<String,Object> getUser(HttpServletResponse response, HttpServletRequest request){
+        User user = new User();
+        if(request.getSession().getAttribute("admin")!=null){
+            user = userService.getUser((String)request.getSession().getAttribute("admin"));
+        }
+        else if(request.getSession().getAttribute("user")!=null){
+            user = userService.getUser((String)request.getSession().getAttribute("user"));
+        }else if(request.getSession().getAttribute("store")!=null){
+            user = userService.getUser((String)request.getSession().getAttribute("store"));
+        }
+        if(user==null)
+            return null;
+        Map<String, Object> res = new HashMap<String, Object>();
+        res.put("username",user.getUsername());
+        res.put("password",user.getPasswd());
+        res.put("role",user.getRole());
+        return res;
     }
 }

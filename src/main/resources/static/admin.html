@@ -14,7 +14,6 @@
     <link rel="shortcut icon" href="./images/favicon.ico"/>
     <link rel="bookmark" href="./images/favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="./css/base.css">
-    <link rel="stylesheet" type="text/css" href="./css/iconfont.css">
     <script type="text/javascript" src="./js/jquery-1.11.3.min.js" ></script>
     <link rel="stylesheet" type="text/css" href="./layui/css/layui.css">
     <script type="text/javascript" src="./layui/layui.js"></script>
@@ -34,30 +33,31 @@
 <!-- 左侧菜单 - 开始 -->
 <div class="frameMenu">
     <div class="logo">
-        <img src="./images/logo.png"/>
+        <a href="javascript:void(0)"  onclick="titleClick('./admin/index.html','后台首页')"><img src="./images/logo.png"/></a>
         <div class="logoText">
             <h1>3241出品</h1>
-            <p>3241</p>
+            <p id="userSession"></p>
         </div>
     </div>
     <div class="menu">
         <ul>
             <li>
-                <a class="menuFA" href="javascript:void(0)"><i class="iconfont icon-liuliangyunpingtaitubiao03 left"></i>商家管理<i class="iconfont icon-dajiantouyou right"></i></a>
+                <a class="menuFA" href="javascript:void(0)"><i class="layui-icon layui-icon-console left"></i>商家管理<i class="layui-icon layui-icon-right right"></i></a>
                 <dl>
 
                     <dt><a href="javascript:void(0)" onclick="menuCAClick('./admin/agentList.html',this)">申请列表</a></dt>
                 </dl>
             </li>
             <li>
-                <a class="menuFA" href="javascript:void(0)"><i class="iconfont icon-shangpin left"></i>商品管理<i class="iconfont icon-dajiantouyou right"></i></a>
+                <a class="menuFA" href="javascript:void(0)"><i class="layui-icon layui-icon-cart-simple left"></i>商品管理<i class="layui-icon layui-icon-right right"></i></a>
                 <dl>
                     <dt><a href="javascript:void(0)" onclick="menuCAClick('./admin/goodsListType.html',this)">分类列表</a></dt>
                     <dt><a href="javascript:void(0)" onclick="menuCAClick('./admin/goodsList.html',this)">商品列表</a></dt>
                 </dl>
             </li>
             <li>
-                <a class="menuFA" href="javascript:void(0)"><i class="iconfont icon-icon left"></i>报表模块<i class="iconfont icon-dajiantouyou right"></i></a>
+                <a class="menuFA" href="javascript:void(0)"><i class="layui-icon layui-icon-chart-screen left"></i>报表模块<i class="layui-icon layui-icon-right right"></i></a>
+                <a class="menuFA" href="javascript:void(0)"><i class="layui-icon layui-icon-chart-screen left"></i>报表模块<i class="layui-icon layui-icon-right right"></i></a>
                 <dl>
                     <dt><a href="javascript:void(0)" onclick="menuCAClick('./admin/reportForm.html',this)">订单统计报表</a></dt>
                 </dl>
@@ -73,7 +73,7 @@
         <img class="jt" src="./images/top_jt.png"/>
         <div class="topMenu">
             <ul>
-                <li><a href="index.html"><i class="iconfont icon-084tuichu"></i>注销</a></li>
+                <li><a href="index.html"><i class="layui-icon layui-icon-logout"></i>注销</a></li>
             </ul>
         </div>
     </div>
@@ -82,7 +82,7 @@
     <!-- 核心区域 - 开始 -->
     <div class="frameMain">
         <div class="title" id="frameMainTitle">
-            <span><i class="iconfont icon-xianshiqi"></i>后台首页</span>
+            <span><i class="layui-icon layui-icon-set"></i>后台首页</span>
         </div>
         <div class="con">
             <iframe id="mainIframe" src="./admin/index.html" scrolling="no"></iframe>
@@ -90,6 +90,15 @@
     </div>
     <!-- 核心区域 - 结束 -->
 </div>
+<script>
+    layui.use(["jquery","layer"],function () {
+        var $ = layui.$, layer = layui.layer;
+        $('#userSession').val("111")
+        window.onload = function () {
+            getSessionName();
+        };
+    });
+</script>
 </body>
 
 </html>

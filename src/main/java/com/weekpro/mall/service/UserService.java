@@ -19,22 +19,15 @@ public class UserService {
     @Autowired
     private UserDao userDao;
     public User login(User user){
-        Map<String,Object> map_= new HashMap<String,Object>();
-        try {
-            User userExist = (User) userDao.getUserByUserName(user.getUsername());
-            if(userExist!=null){
-                if(user.getPasswd().equals(userExist.getPasswd())){
-                    return userExist;
-                }else {
-                    return null;
-                }
+        User user_ = getUser(user.getUsername());
+        if(user_!=null){
+            if(user.getPasswd().equals(user_.getPasswd())){
+                return user_;
             }else {
                 return null;
             }
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public int register(User user){
@@ -46,4 +39,19 @@ public class UserService {
            return -1;
        }
     }
+
+    public User getUser(String username){
+        try {
+            User userExist = (User) userDao.getUserByUserName(username);
+            if(userExist!=null){
+                return userExist;
+            }else {
+                return null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

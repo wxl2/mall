@@ -247,3 +247,19 @@ i.bt{
 	margin-right: 3px;
 }
 /***table操作iconfont - 结束***/
+
+.iconfont {
+	font-family:"iconfont" !important;
+	font-size:16px;
+	font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.resApply{
+	height: 60px;
+	border-bottom:1px solid #9F9F9F;
+	text-align:center;
+	margin: 0 auto;
+	line-height:60px;
+}

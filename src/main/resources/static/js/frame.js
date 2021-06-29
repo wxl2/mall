@@ -36,11 +36,11 @@ function menuFAClick(_this){
 	if(dl.length > 0){
 		if(dl.css("display") == "none"){
 			dl.show();
-			_this.find(".right").attr("class","iconfont icon-arrow-down right");
+			_this.find(".right").attr("class","layui-icon layui-icon-down right");
 			bgColor = "#282a32";
 		}else{
 			dl.hide();
-			_this.find(".right").attr("class","iconfont icon-dajiantouyou right");
+			_this.find(".right").attr("class","layui-icon layui-icon-down right");
 			bgColor = "transparent";
 		}
 	}
@@ -54,30 +54,14 @@ function menuCAClick(url,_this){
 	
 	//处理frameMain url地址
 	$("#mainIframe").attr("src",url);
-	
 	//处理frameMain title名称变化
-	if($(_this).find("i").attr("class") == "iconfont icon-yonghu1"){
-		$("#frameMainTitle span").html('<i class="iconfont icon-xianshiqi"></i>个人资料');
-		return;
-	}
-	if($(_this).text() == "修改密码"){
-		$("#frameMainTitle span").html('<i class="iconfont icon-xianshiqi"></i>'+$(_this).text());
-		return;
-	}
-	if($(_this).attr("class") == "menuFA"){
-		$("#frameMainTitle span").html('<i class="iconfont icon-xianshiqi"></i>'+$(_this).text());
-	}else{
-		//显示父菜单
-//		$("#frameMainTitle span").html('<i class="iconfont icon-xianshiqi"></i>'+$(_this).parent().parent().siblings(".menuFA").text());
-		//显示子菜单
-		$("#frameMainTitle span").html('<i class="iconfont icon-xianshiqi"></i>'+$(_this).text());
-	}
-	
-	//处理菜单样式变化
-	$(_this).css("cssText", "background-color:#fbcc19 !important;").css("color","#FFF");
-	$(_this).parent().siblings().find("a").css("cssText", "background-color:#transparent").css("color","#c2c2c2");
-	$(_this).parent().parent().parent().siblings().find("dl dt a").css("cssText", "background-color:#transparent").css("color","#c2c2c2")
-	
+	$("#frameMainTitle span").html('<i class="layui-icon layui-icon-set"></i>'+$(_this).text());
+}
+
+function titleClick(url,_message) {
+	$("#mainIframe").attr("src",url);
+	//处理frameMain title名称变化
+	$("#frameMainTitle span").html('<i class="layui-icon layui-icon-set"></i>'+_message);
 }
 
 //初始化页面
@@ -97,4 +81,20 @@ function init(){
 	
 	//自定义滚动条
 	$(".menu").mCustomScrollbar();
+}
+
+function getSessionName() {
+	$.ajax({
+		type:'GET',
+		url:'/getuser',
+		dataType:'text',
+		success: function(data){
+			$('#userSession').html(JSON.parse(data).username);
+			console.log("recv message:"+data);
+		},
+		error: function(data, type, err){
+			console.log(type);
+			console.log(err);
+		}
+	});
 }

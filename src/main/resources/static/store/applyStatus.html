@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的申请</title>
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../css/base.css"  media="all">
+</head>
+<body>
+    <div id="resApply" class="resApply">
+        <p id="pApply"> 暂无申请</p>
+    </div>
+    <script src="../layui/layui.js" type="text/javascript"></script>
+    <script>
+        layui.use(["jquery","layer"],function () {
+            var $ = layui.$, layer = layui.layer;
+            window.onload = function () {
+                getStatus();
+            };
+            function getStatus() {
+
+            };
+        });
+    </script>
+</body>
+</html>

@@ -18,7 +18,8 @@ import java.util.Map;
 public class AuthorizationFilter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(request.getSession().getAttribute("admin")==null&&request.getSession().getAttribute("user")==null){
+        if(request.getSession().getAttribute("admin")==null&&request.getSession().getAttribute("user")==null
+        &&request.getSession().getAttribute("store")==null){
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
             PrintWriter out = null;
@@ -44,6 +45,22 @@ public class AuthorizationFilter implements HandlerInterceptor {
                     Map<String,Object> res = new HashMap<String,Object>();
                     res.put("success",false);
                     res.put("message","权限不足");
+                    out = response.getWriter();
+                    out.append(res.toString());
+                    return false;
+                }catch (Exception e){
+                    e.printStackTrace();
+                    response.sendError(500);
+                    return false;
+                }
+            }else if(url.indexOf("store")!=-1){
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json; charset=utf-8");
+                PrintWriter out = null;
+                try {
+                    Map<String,Object> res = new HashMap<String,Object>();
+                    res.put("success",false);
+                    res.put("message","请先注册为商家");
                     out = response.getWriter();
                     out.append(res.toString());
                     return false;
