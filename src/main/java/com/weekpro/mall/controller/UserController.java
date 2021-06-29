@@ -83,7 +83,13 @@ public class UserController {
         res.put("password",user.getPasswd());
         res.put("role",user.getRole());
         res.put("phone",user.getPhone());
-        res.put("addr",user.getAddr());
+        res.put("addrs",user.getAddr());
         return res;
     }
+
+    @GetMapping("/setuser")
+    public void setUser(User user){
+
+    }
+
 }

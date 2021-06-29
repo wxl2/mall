@@ -1,0 +1,21 @@
+.enroll-style{
+    width: 146px;
+    margin: 0;
+    display: inline-block;
+}
+
+.site-style{
+    width: 30%;
+    display: inline-block;
+}
+
+.site-style2{
+    margin: 0;
+    width: 30%;
+    display: inline-block;
+}
+
+.save-style{
+    width: 300px;
+    margin: 0;
+}
