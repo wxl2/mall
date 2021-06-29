@@ -191,12 +191,6 @@ body{
 
 /* User.html csss */
 
-
-@charset "utf-8";
-
-
-/*css预设*/
-
 * {
 	margin: 0;
 	padding: 0;
@@ -258,8 +252,6 @@ img {
 }
 
 
-/*解决ie6的兼容性问题*/
-/**/
 .fl {
 	float: left;
 }
