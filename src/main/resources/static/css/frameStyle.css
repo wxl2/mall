@@ -188,10 +188,140 @@ body{
 	overflow: hidden;
 }
 
-.head{
+
+/* User.html csss */
+
+
+@charset "utf-8";
+
+
+/*css预设*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+
+/*将所有HTML元素的默认边距清0*/
+
+html,
+body {
+	font-size: 12px;
+	font-family: "微软雅黑", "arial";
+	color: #262626;
+	background: #FFF;
+}
+
+
+/*对HTML元素中的字体、颜色、背景色进行初始设置*/
+
+ul li,
+ol li {
+	list-style: none;
+}
+
+
+/*将列表标签的默认样式清除*/
+
+a {
+	text-decoration: none;
+	outline: none;
+	color: #262626;
+}
+
+
+/*将超链接的下划线去掉以及在ie6中点击出现的虚线框去掉*/
+
+img {
+	border: none;
+}
+
+
+/*清楚浮动*/
+/**/
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+	height: 0;
+	line-height: 0;
+	visibility: hidden;
+}
+
+.clearfix {
+	zoom: 1;
+}
+
+.clearfix .incSize{
+	font-size: 35px;
+}
+
+
+/*解决ie6的兼容性问题*/
+/**/
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+/**/
+.mt {
+	margin-top: 80px;
+}
+
+/**/
+.wrapper {
+	width: 1160px;
+	margin: 0 auto;
+}
+
+
+/*********************head********************/
+
+.head {
 	margin-top: 30px;
 	min-width: 1160px;
 	position: relative;
 	border-bottom: 1px solid #e0e0e0;
-	border:none;
+}
+
+/**/
+.head div.btn {
+	margin-top: 20px;
+	position: relative;
+}
+
+.head div.btn a {
+	float: left;
+	margin: 0 10px;
+}
+
+.head ul {
+	float: left;
+	margin-left: 18%;
+	line-height: 50px;
+}
+
+.head ul li {
+	float: left;
+	padding: 0 20px;
+}
+
+.head ul li>a {
+	color: #262626;
+	font-size: 14px;
+	display: inline-block;
+	position: relative;
+}
+
+
+.head ul li:nth-child(1) a:before {
+	left: -12px;
+}
+
+.head ul li>a:hover {
+	color: #A10000;
 }
