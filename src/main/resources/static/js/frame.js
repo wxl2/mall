@@ -84,17 +84,21 @@ function init(){
 }
 
 function getSessionName() {
+	var ret = '';
 	$.ajax({
 		type:'GET',
+		async:false,
 		url:'/getuser',
 		dataType:'text',
 		success: function(data){
-			$('#userSession').html(JSON.parse(data).username);
+		    ret = data;
 			console.log("recv message:"+data);
 		},
 		error: function(data, type, err){
+			return null;
 			console.log(type);
 			console.log(err);
 		}
 	});
+	return ret;
 }

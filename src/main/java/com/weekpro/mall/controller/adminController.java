@@ -66,10 +66,24 @@ public class adminController {
         return "操作失败";
     }
     @PostMapping("/applyStore")
-    public void applyToStore(@RequestBody Map<String,Object> map){
+    public int applyToStore(@RequestBody Map<String,Object> map){
         String username = (String) map.get("username");
         String status = (String) map.get("action");
         applyStore store = new applyStore(username,status);
-        adminService.applyToStore(store);
+        return adminService.applyToStore(store);
+    }
+
+    @PostMapping("/getStatus")
+    public  Map<String,Object> getStatus(@RequestBody String username){
+        applyStore store = adminService.getStatus(username);
+        Map<String,Object> map_ = new HashMap<String,Object>();
+        if(store == null){
+            map_.put("code",-1);
+            map_.put("status",null);
+        }else{
+            map_.put("code",0);
+            map_.put("status",store.getStatus());
+        }
+        return map_;
     }
 }

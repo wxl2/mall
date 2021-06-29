@@ -14,7 +14,7 @@ public class User {
     private String password;
     private String role;
     private String phone;
-    private System addr;
+    private String addr;
 
     /*
         0:-->普通用户
@@ -49,15 +49,15 @@ public class User {
         this.phone = phone;
     }
 
-    public System getAddr() {
+    public String getAddr() {
         return addr;
     }
 
-    public void setAddr(System addr) {
+    public void setAddr(String addr) {
         this.addr = addr;
     }
 
-    public User(String username, String password, String role, String phone, System addr) {
+    public User(String username, String password, String role, String phone, String addr) {
         this.username = username;
         this.password = password;
         this.role = role;

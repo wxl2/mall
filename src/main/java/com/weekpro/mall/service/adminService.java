@@ -17,13 +17,13 @@ import java.util.List;
 @Service("adminService")
 public class adminService {
     @Autowired
-    private applyStoreMapper applyStore;
+    private applyStoreMapper applyStore_;
     @Autowired
     private UserDao userDao;
 
     public List<applyStore> getList(){
         try {
-            return applyStore.getAllapplyStoreList();
+            return applyStore_.getAllapplyStoreList();
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -32,7 +32,7 @@ public class adminService {
 
     public int setStatus(String username,String status){
         try {
-            applyStore.setStatus(status,username);
+            applyStore_.setStatus(status,username);
             if(status.equals("1"))
                 userDao.updateRole("2",username);
         }catch (Exception e){
@@ -42,12 +42,26 @@ public class adminService {
         return 0;
     }
 
-    public void applyToStore(applyStore store){
+    public int applyToStore(applyStore store){
         try {
-            applyStore.insertUser(store);
+            if(applyStore_.getStoreByUserName(store.getUsername()) == null){
+                applyStore_.insertUser(store);
+                return 0;
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
-        return;
+        return -1;
+    }
+
+    public applyStore getStatus(String username){
+        try{
+            applyStore store = applyStore_.getStoreByUserName(username);
+            return store;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

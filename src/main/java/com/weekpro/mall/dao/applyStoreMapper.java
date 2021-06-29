@@ -20,6 +20,8 @@ public interface applyStoreMapper {
     public void insertUser(applyStore element);
     @Select("select  username,status from applyStore")
     public List<applyStore> getAllapplyStoreList();
+    @Select("select  username,status from applyStore where username=#{username}")
+    public applyStore getStoreByUserName(@Param("username") String username);
     @Update("update applyStore set status=#{status} where username=#{username}")
     public void setStatus(@Param("status") String status,@Param("username") String username);
 }

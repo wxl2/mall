@@ -92,9 +92,9 @@
 <script>
     layui.use(["jquery","layer"],function () {
         var $ = layui.$, layer = layui.layer;
-        $('#userSession').val("111")
         window.onload = function () {
-            getSessionName();
+            var data = getSessionName();
+            $('#userSession').html(JSON.parse(data).username);
         };
     });
 </script>
