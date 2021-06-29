@@ -10,7 +10,7 @@ public class applyStore {
     private String username;
     private String status;
     /*
-    status:0-->申请为处理
+    status:0-->申请未处理
     status:1-->同意申请
     status:2-->拒绝申请
      */

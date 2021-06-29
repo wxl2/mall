@@ -13,7 +13,14 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private String phone;
+    private System addr;
 
+    /*
+        0:-->普通用户
+        1:-->管理员
+        2:-->商家
+     */
     public String getUsername() {
         return username;
     }
@@ -26,7 +33,7 @@ public class User {
         return password;
     }
 
-    public void setPasswd(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -34,11 +41,30 @@ public class User {
         return role;
     }
 
-    public User(String username, String passwd, String role) {
-        this.username = username;
-        this.password = passwd;
-        this.role = role;
+    public String getPhone() {
+        return phone;
     }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public System getAddr() {
+        return addr;
+    }
+
+    public void setAddr(System addr) {
+        this.addr = addr;
+    }
+
+    public User(String username, String password, String role, String phone, System addr) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.phone = phone;
+        this.addr = addr;
+    }
+
     public User(){}
     public void setRole(String role) {
         this.role = role;

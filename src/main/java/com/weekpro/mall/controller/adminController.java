@@ -65,4 +65,11 @@ public class adminController {
             return "操作成功";
         return "操作失败";
     }
+    @PostMapping("/applyStore")
+    public void applyToStore(@RequestBody Map<String,Object> map){
+        String username = (String) map.get("username");
+        String status = (String) map.get("action");
+        applyStore store = new applyStore(username,status);
+        adminService.applyToStore(store);
+    }
 }

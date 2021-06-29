@@ -20,5 +20,13 @@ CREATE TABLE IF NOT EXISTS `applyStore` (
   PRIMARY KEY (`id`),
   KEY `isexists` (`username`),
   CONSTRAINT `isexists` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `mall`.`user`
+ADD COLUMN `phone` varchar(16) NULL AFTER `role`,
+ADD COLUMN `addr` varchar(50) CHARACTER SET utf8 NULL AFTER `phone`;
+
+ALTER TABLE `mall`.`user`
+DROP INDEX `username`,
+ADD UNIQUE INDEX `username`(`username`) USING BTREE;
 

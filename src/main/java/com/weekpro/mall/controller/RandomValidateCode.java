@@ -19,7 +19,7 @@ import java.util.Random;
 @Controller
 public class RandomValidateCode {
     private Random random = new Random();
-    private String randString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private String randString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private int stringNum = 4;
 
     //获取验证码
@@ -32,7 +32,7 @@ public class RandomValidateCode {
         response.setDateHeader("Expire", 0);
         String code ="";
         for(int i =0 ;i<stringNum;i++){
-            code+=randString.valueOf(randString.charAt(random.nextInt(36)));
+            code+=randString.valueOf(randString.charAt(random.nextInt(62)));
         }
         String sessionid = request.getSession().getId();
         request.getSession().setAttribute(sessionid+"code", code);

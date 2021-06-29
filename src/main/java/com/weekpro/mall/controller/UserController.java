@@ -32,7 +32,7 @@ public class UserController {
             res.put("data","验证码错误");
             return res;
         }
-        User user = new User(username,passwd,"");
+        User user = new User(username,passwd,null,null,null);
         User  data = userService.login(user);
         if(data == null) {
             res.put("status", "falid");
@@ -60,7 +60,7 @@ public class UserController {
         if(!passwd.equals(WellPasswd)){
             return "两次密码输入不一致";
         }
-        User user = new User(userName,passwd,"0");
+        User user = new User(userName,passwd,"0",null,null);
         if(userService.register(user)==0)
             return "注册成功";
         else return "注册失败";
@@ -82,6 +82,8 @@ public class UserController {
         res.put("username",user.getUsername());
         res.put("password",user.getPasswd());
         res.put("role",user.getRole());
+        res.put("phone",user.getPhone());
+        res.put("addr",user.getAddr());
         return res;
     }
 }
