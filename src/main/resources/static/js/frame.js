@@ -40,7 +40,7 @@ function menuFAClick(_this){
 			bgColor = "#282a32";
 		}else{
 			dl.hide();
-			_this.find(".right").attr("class","layui-icon layui-icon-down right");
+			_this.find(".right").attr("class","layui-icon layui-icon-right right");
 			bgColor = "transparent";
 		}
 	}
