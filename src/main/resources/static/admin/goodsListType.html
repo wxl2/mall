@@ -8,69 +8,159 @@
     <!--国产浏览器高速模式-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>3241出品</title>
-
+    <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
     <script type="text/javascript" src="../layui/layui.js"></script>
 </head>
-<body>
-    <p align="center">商品分类</p>
+<body style="background-color: white">
+<p align="center">商品分类</p>
 
-    <table class="layui-hide" id="goodsType" lay-filter="goodsType"></table>
+<table class="layui-hide" id="goodsType" lay-filter="goodsType"></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 
-    <div class="layui-btn-container" align="center">
-        <button id="addType" type="button" class="layui-btn layui-btn-lg" onclick="addType()">添加类别</button>
-    </div>
-
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>
+<div class="layui-btn-container" align="center">
+    <button data-method="offset" id="loginRegister" data-type="auto" class="layui-btn layui-btn-normal">添加分类</button>
+</div>
 
 
-    <script src="../layui/layui.js" charset="utf-8"></script>
-    <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
 
-    <script>
-        layui.use('table', function(){
-            var table = layui.table;
+        table.render({
+            type:"GET",
+            elem: '#goodsType'
+            ,url:'/getType'
+            ,title: '商品类别表'
+            ,cols: [[
+                ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
+                ,{field:'type', title:'类名', width:150, edit: 'text', templet: function(res){
+                        return '<em>'+ res.type +'</em>'
+                    }}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+            ]]
+            ,page: true
+        });
 
-            table.render({
-                elem: '#goodsType'
-                ,url:'/goodsType'
-                ,title: '商品类别表'
-                ,cols: [[
-                    ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-                    ,{field:'email', title:'类名', width:150, edit: 'text', templet: function(res){
-                            return '<em>'+ res.email +'</em>'
-                        }}
-                ]]
-                ,page: true
-            });
-
-            //监听行工具事件
-            table.on('tool(goodsType)', function(obj){
-                var data = obj.data;
-
-                if(obj.event === 'del'){
-                    layer.confirm('真的删除行么', function(index){
-                        obj.del();
-                        layer.close(index);
-                    });
-                } else if(obj.event === 'edit'){
-                    layer.prompt({
-                        formType: 2
-                        ,value: data.email
-                    }, function(value, index){
-                        obj.update({
-                            email: value
+        //监听行工具事件
+        table.on('tool(goodsType)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    obj.del();
+                    layer.close(index);
+                    layui.use(["jquery","layer","form"],function () {
+                        var $ = layui.$, layer = layui.layer, form = layui.form;
+                        $.ajax({
+                            type: 'POST',
+                            url: '/delectType',
+                            dataType: 'text',
+                            data: data.id,
+                            success: function (data) {
+                                layer.alert(data);
+                                layer.close(index);
+                            },
+                            error: function (data) {
+                                layer.alert("请求超时！")
+                            }
                         });
-                        layer.close(index);
                     });
-                }
+                });
+            } else if(obj.event === 'edit'){
+                layer.prompt({
+                    formType: 2
+                    ,value: data.email
+                }, function(value, index){
+                    obj.update({
+                        email: value
+                    });
+                    layer.close(index);
+                });
+            }
+        });
+    });
+</script>
+<script>
+    layui.use(["jquery","layer","form"],function () {
+        var $ = layui.$, layer = layui.layer, form = layui.form;
+        $(function () {
+            $('#loginRegister').click(function () {
+                register();
             });
         });
-    </script>
+        function register() {
+
+            layer.open({
+                type:'1',
+                content:$('.registerPage'),
+                title:'添加',
+                area:['430px','195px'],
+                btn:['提交','重置','取消'],
+                closeBtn:'1',
+                btn1:function (index,layero) {
+                    //注册回调
+                    var typeStore = $('#typeStore').val();
+                    if(typeStore.length<=0){
+                        layer.alert("类别不能为空");
+                        return false;
+                    }
+                    var params = {};
+                    params.typename = typeStore;
+                    $.ajax({
+                        type:'post',
+                        url:'/insertType',
+                        dataType:'text',
+                        data:JSON.stringify(params),
+                        contentType:'application/json',
+                        success:function (data) {
+                            layer.alert(data);
+                            layer.close(index);
+                        },
+                        error:function (data) {
+                            layer.alert("请求超时！")
+                        }
+                    });
+
+                },
 
 
+                btn2:function (index,layero) {
+                    //重置回调
+                    var typeStore = $('#typeStore').val("");
+                    // 防止注册页面关闭
+                    return false;
+                },
+                btn3:function (index,layero) {
+                    //取消回调
+                }
+            })
+        }
+    });
+</script>
 </body>
+<style>
+    .typecss{
+        width: 300px;
+        height: 40px;
+        padding-left: 130px;
+        padding-top: 30px;
+    }
+</style>
+<div class="registerPage" style="height: 50px;">
+    <div class="registerDiv">
+        <form>
+            <div class="usernameWrapDiv">
+                <div class="usernameLabel">
+                    <label>类别:</label>
+                </div>
+                <div class="typecss">
+                    <input id="typeStore" class="layui-input adminInput" type="text" name="username" placeholder="输入类别" >
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </html>

@@ -2,6 +2,7 @@ package com.weekpro.mall.service;
 
 import com.weekpro.mall.dao.UserDao;
 import com.weekpro.mall.dao.applyStoreMapper;
+import com.weekpro.mall.dao.typeMapper;
 import com.weekpro.mall.entity.applyStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,5 +66,5 @@ public class adminService {
         }
     }
 
-
 }
+
