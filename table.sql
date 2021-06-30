@@ -30,8 +30,9 @@ ALTER TABLE `mall`.`user`
 DROP INDEX `username`,
 ADD UNIQUE INDEX `username`(`username`) USING BTREE;
 
-CREATE TABLE `mall`.`goodsclass`(
-    `id`    int(0) NOT NULL AUTO_INCREMENT,
-    `class` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-    PRIMARY KEY (`id`) USING BTREE
+CREATE TABLE `mall`.`goodstype`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `typeid` int(0) NOT NULL,
+  `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
