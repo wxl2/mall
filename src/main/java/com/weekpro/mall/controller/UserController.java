@@ -87,9 +87,14 @@ public class UserController {
         return res;
     }
 
-    @GetMapping("/setuser")
-    public void setUser(User user){
-
+    @PostMapping("/setAddrPhone")
+    public String setAddrAndPhone(@RequestBody Map<String,Object> map){
+        String userName = (String) map.get("username");
+        String phone = (String) map.get("phone");
+        String addr = (String) map.get("addr");
+        if(userService.setAddrAndPhone(userName,addr,phone)==0)
+            return "操作成功";
+        else return "操作失败";
     }
 
 }

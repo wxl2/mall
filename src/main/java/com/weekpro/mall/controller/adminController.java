@@ -23,6 +23,8 @@ import java.util.Map;
 public class adminController {
     @Autowired
     private adminService adminService;
+
+    //申请商家列表
     @GetMapping("/applyList")
     public Map<String,Object> getList(){
         List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
@@ -57,6 +59,8 @@ public class adminController {
         }
         return map;
     }
+
+    //审核商家
     @PostMapping("/jugeApplyStore")
     public String jugeApplyStore(@RequestBody Map<String,Object> map){
         String username = (String) map.get("username");
@@ -72,7 +76,6 @@ public class adminController {
         applyStore store = new applyStore(username,status);
         return adminService.applyToStore(store);
     }
-
     @PostMapping("/getStatus")
     public  Map<String,Object> getStatus(@RequestBody String username){
         applyStore store = adminService.getStatus(username);
@@ -86,4 +89,6 @@ public class adminController {
         }
         return map_;
     }
+
+
 }
