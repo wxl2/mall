@@ -83,22 +83,4 @@ function init(){
 	$(".menu").mCustomScrollbar();
 }
 
-function getSessionName() {
-	var ret = '';
-	$.ajax({
-		type:'GET',
-		async:false,
-		url:'/getuser',
-		dataType:'text',
-		success: function(data){
-		    ret = data;
-			console.log("recv message:"+data);
-		},
-		error: function(data, type, err){
-			return null;
-			console.log(type);
-			console.log(err);
-		}
-	});
-	return ret;
-}
+

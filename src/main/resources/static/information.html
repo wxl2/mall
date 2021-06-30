@@ -3,15 +3,21 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>layarea</title>
+    <title>个人信息</title>
     <link rel="stylesheet" href="./layui/css/layui.css">
     <link rel="stylesheet" href="./css/local.css">
+    <link rel="shortcut icon" href="./images/favicon.ico"/>
+    <link rel="bookmark" href="./images/favicon.ico"/>
+    <script src="./layui/layui.js"></script>
+    <script src="./layui/layui.js" type="text/javascript"></script>
+    <script src="./js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="./js/local.js" type="text/javascript"></script>
+    <script src="./js/jquery-ui-1.10.4.min.js"></script>
+    <script src="./js/jquery.mousewheel.min.js"></script>
+    <script src="./js/jquery.mCustomScrollbar.min.js"></script>
 </head>
-
-
 <body>
-<form class="layui-form layui-form-pane" action="">
-
+<form class="layui-form layui-form-pane">
     <div class="layui-form-item">
         <label class="layui-form-label" >昵称</label>
         <div class="layui-input-inline">
@@ -23,16 +29,16 @@
         <div class="layui-input-inline">
             <input type="text" id="val12" disabled="disabled" name="username" lay-verify="required" placeholder="客户"  value="" autocomplete="off" class="layui-input">
         </div>
-        <div class="enroll-style">
-        <div id="div3" style="display: none">
-            <button type="button" class="layui-btn layui-btn-fluid" onclick="enroll()";>注册商户</button>
-        </div>
+        <div id="div3" class="site-style2" style="display: none">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" onclick="sendApply()">
+                <i class="layui-icon" title="申请成为商家">&#xe642;</i>
+            </button>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">电话</label>
-        <div class="layui-input-block">
+        <div class="site-style layui-input-block" style="margin-left: 0px;">
             <input id="phone" type="text" name="title" autocomplete="off" placeholder="请输入电话号码"value="" class="layui-input">
         </div>
     </div>
@@ -43,130 +49,55 @@
             <input id="addr" type="text" disabled="disabled" name="title" lay-verify="title" autocomplete="off" placeholder="请尽快添加您的地址" value="" class="layui-input">
         </div>
         <div class="site-style2">
-            <button type="button" class="layui-btn layui-btn-fluid" onclick="upset()";>修改地址</button>
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" onclick="upset()">
+                <i class="layui-icon" title="修改地址">&#xe642;</i>
+            </button>
         </div>
     </div>
-
-
-
-<div class="layui-form" id="div1" style="display: none;">
-    <div class="layui-form-item" id="area-picker">
-        <div class="layui-form-label">我的地址</div>
-        <div class="layui-input-inline" style="width: 200px;">
-                <select name="province" id="sheng" class="province-selector" data-value="四川省" lay-filter="province-1">
-                <option value="" >请选择省</option>
-            </select>
-        </div>
-        <div class="layui-input-inline" style="width: 200px;">
-            <select name="city" id="shi" class="city-selector" data-value="成都市" lay-filter="city-1">
-                <option value="" >请选择市</option>
-            </select>
-        </div>
-        <div class="layui-input-inline"  style="width: 200px;">
-            <select name="county" id="qu" class="county-selector" data-value="郫都区" lay-filter="county-1">
-                <option value="" >请选择区</option>
-            </select>
+    <div class="layui-form" id="div1" style="display: none;">
+        <div class="layui-form-item" id="area-picker">
+            <div class="layui-form-label">填写地址</div>
+            <div class="layui-input-inline" style="width: 200px;">
+                    <select name="province" id="sheng" class="province-selector" data-value="四川省" lay-filter="province-1">
+                    <option value="" >请选择省</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select name="city" id="shi" class="city-selector" data-value="成都市" lay-filter="city-1">
+                    <option value="" >请选择市</option>
+                </select>
+            </div>
+            <div class="layui-input-inline"  style="width: 200px;">
+                <select name="county" id="qu" class="county-selector" data-value="郫都区" lay-filter="county-1">
+                    <option value="" >请选择区</option>
+                </select>
+            </div>
+            <div class="site-style2">
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" onclick="setAddr()">
+                    <i class="layui-icon" title="确定">&#xe621;</i>
+                </button>
+            </div>
         </div>
     </div>
-    <div class="save-style">
-        <button type="button"  onclick="upset1()" class="layui-btn layui-btn-fluid";>保存</button>
-    </div>
-</div>
 </form>
-<script src="./layui/layui.js"></script>
-<script src="./layui/layui.js" type="text/javascript"></script>
-<script src="/js/jquery-1.11.3.min.js"></script>
+<div class="save-style">
+    <button type="button"  onclick="sendAddr()" class="layui-btn layui-btn-fluid";>提交</button>
+</div>
 <script>
     var $ = layui.$,layer = layui.layer,form = layui.form;
     $(function () {
         window.onload = function () {
-            set12();
+            setRole();
         };
-        function set12() {
-            //载入
-            $.ajax({
-                type: "GET",
-                url: "/getuser",
-                success: function (data) {
-                    //placeholder
-                    $("#username").val(data.username);
-                    if (data.role == "0") {
-                        $("#val12").val("客户");
-                        $("#div3").show();
-                    } else if (data.role == "2") {
-                        $("#val12").val("商家");
-                    }
-                    $("#phone").val(data.phone);
-                    $("#addr").val(data.addrs);
-                },
-                error: function () {
-                    alert("error");
-                }
-            });
-        }
     });
-
-    //提交商户申请
-    function enroll(){
-        var str={};
-        str.username =$("#username").val();
-        str.action = "0";
-            $.ajax({
-            type: "POST",
-            dataType:'text',
-            data : JSON.stringify(str),
-            url: "/applyStore",
-            contentType:'application/json',
-            success: function (data) {
-                if(data == -1)
-                    alert("申请以提交，不能重复申请！");
-                alert("申请已提交，请耐心等候！");
-            }
-        });
-    }
-
     // 点击修改地址，显示隐藏
     function upset(){
         div1.style.display ='block';
     }
 
-    // 将选中的地址填入我的地址框中
-        function upset1(){
-            div1.style.display ='none';
-            var obj = document.getElementById("sheng"); //定位id
-            var index = obj.selectedIndex; // 选中索引
-            var value = obj.options[index].value; // 选中值
-            var obj1 = document.getElementById("shi"); //定位id
-            var index1 = obj1.selectedIndex; // 选中索引
-            var value1 = obj1.options[index1].value; // 选中值
-            var obj2 = document.getElementById("qu"); //定位id
-            var index2 = obj2.selectedIndex; // 选中索引
-            var value2 = obj2.options[index2].value; // 选中值
-            addr.value = value+"  "+value1+"  "+value2;
-            save();
-        }
-        //   发送电话号码，地址
-        function save(){
-            var str={};
-            str.username =$("#username").val();
-            str.phone =$("#phone").val() ;
-            str.addr =$("#addr").val() ;
-            $.ajax({
-                type: "POST",
-                dataType:'text',
-                data : JSON.stringify(str),
-                url: "/setuser",
-                contentType:'application/json',
-                success: function () {
-                }
-            });
-
-        }
-
-
     //配置插件目录
     layui.config({
-        base: './mods/'
+        base: './js/'
         , version: '1.0'
     });
     //一般直接写在一个js文件中

@@ -54,4 +54,13 @@ public class UserService {
         }
     }
 
+    public int setAddrAndPhone(String username,String addr,String phone){
+        try{
+            userDao.updatePhoneAddr(phone,addr,username);
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+        return 0;
+    }
 }
