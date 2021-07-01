@@ -10,9 +10,9 @@ function getSessionName() {
             console.log("recv message:"+data);
         },
         error: function(data, type, err){
-            return null;
             console.log(type);
             console.log(err);
+            return null;
         }
     });
     return ret;
@@ -81,31 +81,18 @@ function sendAddr(){
     str.username =$("#username").val();
     str.phone =$("#phone").val() ;
     str.addr =$("#addr").val() ;
-    $.ajax({
-        type: "POST",
-        dataType:'text',
-        data : JSON.stringify(str),
-        url: "/setAddrPhone",
-        contentType:'application/json',
-        success:function (data) {
-            layer.alert(data);
-        },
-        error:function (data) {
-            layer.alert("请求超时！")
-        }
-    });
+    postAjax(str,'/setAddrPhone','text','application/json');
 
 }
 
-
-function typeAjax(obj) {
+function postAjax(dataObj,url,datatype,contenttype) {
     $.ajax({
         type:'post',
-        url:'/mangerType',
-        dataType:'text',
+        url:url,
+        dataType:datatype,
         async:false,
-        data:JSON.stringify(obj),
-        contentType:'text/plain',
+        data:JSON.stringify(dataObj),
+        contentType:contenttype,
         success:function (data) {
             layer.alert(data);
         },
@@ -142,7 +129,7 @@ function typeDiv(actionId,divTitle) {
                 data_.type = typeName;
                 params.data =data_;
             }
-            typeAjax(params);
+            postAjax(params,'/mangerType','text','text/plain');
             layer.close(index);
             table.reload('goodsType', {});
         },
@@ -156,5 +143,37 @@ function typeDiv(actionId,divTitle) {
         btn3:function (index,layero) {
             //取消回调
         }
-    })
+    });
+}
+
+function paging(res) {
+    var dataList = res.data;
+    var total = res.count;
+    var list = [];
+    var page = $("#layui-table-page1").find(".layui-laypage-em").next().html();
+    var limit = $("#layui-table-page1").find(".layui-laypage-limits select").val();
+    if(page == undefined || page == null || page == ""){
+        page = 1;
+    }
+    if(limit == undefined || limit == null || limit == ""){
+        limit = 10;
+    }
+    var start = (page-1) * limit;
+    var end = page * limit;
+    if(end > total){
+        end = total;
+    }
+    for(var i=start; i<end; i++){
+        list.push(dataList[i]);
+    }
+    return {
+        "code": res.code,
+        "msg": res.msg,
+        "count": res.count,
+        "data": list
+    }
+}
+
+function loginout() {
+    $.get('/loginout');
 }

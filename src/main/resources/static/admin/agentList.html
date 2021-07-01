@@ -12,6 +12,8 @@
 
     <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
     <script type="text/javascript" src="../layui/layui.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
+    <script type="text/javascript" src="../js/local.js"></script>
 
 
 </head>
@@ -25,6 +27,7 @@
 <script>
     layui.use(["table","jquery","layer","form"], function(){
         var table = layui.table;
+        var $ = layui.$;
         table.render({
             elem: '#applyList'
             ,url:'/applyList'
@@ -34,6 +37,7 @@
                 ,{field:'operation', width:150, title:'操作', toolbar: '#barDemo'}
             ]]
             ,page: true
+            ,parseData:paging
         });
 
         //工具栏事件
@@ -55,21 +59,8 @@
                     params.action = "2";
                     break;
             };
-            $.ajax({
-                type:'post',
-                url:'/jugeApplyStore',
-                dataType:'text',
-                data:JSON.stringify(params),
-                contentType:'application/json',
-                success:function (data) {
-                    layer.alert(data);
-                    table.reload('applyList', {})
-
-                },
-                error:function (data) {
-                    layer.alert("请求超时！")
-                }
-            });
+            postAjax(params,'/jugeApplyStore','text','application/json');
+            table.reload('applyList', {});
         });
     });
 </script>

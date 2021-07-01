@@ -86,7 +86,10 @@ public class UserController {
         res.put("addrs",user.getAddr());
         return res;
     }
-
+    @GetMapping("/loginout")
+    public void loginOut(HttpServletRequest request){
+        request.getSession().invalidate();
+    }
     @PostMapping("/setAddrPhone")
     public String setAddrAndPhone(@RequestBody Map<String,Object> map){
         String userName = (String) map.get("username");

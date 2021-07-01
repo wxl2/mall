@@ -50,7 +50,7 @@
             if(obj.event === 'del'){
                 params.action = 0;
                 params.data = data.id;
-                typeAjax(params);
+                postAjax(params,'/mangerType','text','text/plain');
                 table.reload('goodsType', {});
             } else if(obj.event === 'edit'){
                 typeDiv(data.id,'编辑');

@@ -31,7 +31,7 @@
                     url:'/getStatus',
                     dataType:'text',
                     data:JSON.parse(getSessionName()).username,
-                    contentType:'application/json',
+                    contentType:'text/plain',
                     success: function(data){
                         var data_ = JSON.parse(data);
                         if(data_.code == -1)
