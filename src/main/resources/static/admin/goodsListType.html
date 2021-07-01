@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
-    <!-- Google Chrome Frame也可以让IE用上Chrome的引擎: -->
-    <meta name="renderer" content="webkit">
-    <!--国产浏览器高速模式-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>3241出品</title>
-    <link rel="stylesheet" href="../css/login.css">
+    <!-- 公共样式 开始 -->
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="bookmark" href="../images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="../css/base.css">
+    <script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
     <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
     <script type="text/javascript" src="../layui/layui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/local.css">
+    <script type="text/javascript" src="../js/local.js" ></script>
 </head>
 <body style="background-color: white">
-<p align="center">商品分类</p>
-
 <table class="layui-hide" id="goodsType" lay-filter="goodsType"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -22,143 +19,52 @@
 </script>
 
 <div class="layui-btn-container" align="center">
-    <button data-method="offset" id="loginRegister" data-type="auto" class="layui-btn layui-btn-normal">添加分类</button>
+    <button data-method="offset" id="addType" data-type="auto" class="layui-btn layui-btn-normal">添加分类</button>
 </div>
-
-
 <script>
-    layui.use('table', function(){
-        var table = layui.table;
-
+    layui.use(["jquery","layer","form","table"], function(){
+        var $ = layui.$, layer = layui.layer, form = layui.form,table = layui.table;
         table.render({
             type:"GET",
             elem: '#goodsType'
-            ,url:'/getType'
+            ,url:'/getTypeList'
             ,title: '商品类别表'
             ,cols: [[
-                ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-                ,{field:'type', title:'类名', width:150, edit: 'text', templet: function(res){
-                        return '<em>'+ res.type +'</em>'
-                    }}
+                {field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
+                ,{field:'type', title:'类名', width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
             ]]
             ,page: true
         });
 
+        $(function () {
+            $('#addType').click(function () {
+                typeDiv(2,'添加');
+            });
+        });
         //监听行工具事件
         table.on('tool(goodsType)', function(obj){
             var data = obj.data;
+            var $ = layui.$, layer = layui.layer, form = layui.form;
+            var params = {};
             if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                    obj.del();
-                    layer.close(index);
-                    layui.use(["jquery","layer","form"],function () {
-                        var $ = layui.$, layer = layui.layer, form = layui.form;
-                        $.ajax({
-                            type: 'POST',
-                            url: '/delectType',
-                            dataType: 'text',
-                            data: data.id,
-                            success: function (data) {
-                                layer.alert(data);
-                                layer.close(index);
-                            },
-                            error: function (data) {
-                                layer.alert("请求超时！")
-                            }
-                        });
-                    });
-                });
+                params.action = 0;
+                params.data = data.id;
+                typeAjax(params);
+                table.reload('goodsType', {});
             } else if(obj.event === 'edit'){
-                layer.prompt({
-                    formType: 2
-                    ,value: data.email
-                }, function(value, index){
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
-                });
+                typeDiv(data.id,'编辑');
             }
         });
     });
 </script>
-<script>
-    layui.use(["jquery","layer","form"],function () {
-        var $ = layui.$, layer = layui.layer, form = layui.form;
-        $(function () {
-            $('#loginRegister').click(function () {
-                register();
-            });
-        });
-        function register() {
-
-            layer.open({
-                type:'1',
-                content:$('.registerPage'),
-                title:'添加',
-                area:['430px','195px'],
-                btn:['提交','重置','取消'],
-                closeBtn:'1',
-                btn1:function (index,layero) {
-                    //注册回调
-                    var typeStore = $('#typeStore').val();
-                    if(typeStore.length<=0){
-                        layer.alert("类别不能为空");
-                        return false;
-                    }
-                    var params = {};
-                    params.typename = typeStore;
-                    $.ajax({
-                        type:'post',
-                        url:'/insertType',
-                        dataType:'text',
-                        data:JSON.stringify(params),
-                        contentType:'application/json',
-                        success:function (data) {
-                            layer.alert(data);
-                            layer.close(index);
-                        },
-                        error:function (data) {
-                            layer.alert("请求超时！")
-                        }
-                    });
-
-                },
-
-
-                btn2:function (index,layero) {
-                    //重置回调
-                    var typeStore = $('#typeStore').val("");
-                    // 防止注册页面关闭
-                    return false;
-                },
-                btn3:function (index,layero) {
-                    //取消回调
-                }
-            })
-        }
-    });
-</script>
 </body>
-<style>
-    .typecss{
-        width: 300px;
-        height: 40px;
-        padding-left: 130px;
-        padding-top: 30px;
-    }
-</style>
-<div class="registerPage" style="height: 50px;">
-    <div class="registerDiv">
+<div class="addTypePage">
+    <div class="addTypeDiv">
         <form>
-            <div class="usernameWrapDiv">
-                <div class="usernameLabel">
-                    <label>类别:</label>
-                </div>
-                <div class="typecss">
-                    <input id="typeStore" class="layui-input adminInput" type="text" name="username" placeholder="输入类别" >
-                </div>
+            <label class="layui-form-label">类别:</label>
+            <div class="layui-input-inline">
+                <input id="typeStore" class="layui-input" type="text" name="username" placeholder="输入类别" >
             </div>
         </form>
     </div>

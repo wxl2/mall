@@ -1,22 +1,13 @@
 package com.weekpro.mall.entity;
 
 public class typeStore {
-    int id;
     int typeId;
     String typename;
     public typeStore(){}
-    public typeStore(int id, int typeId, String typename) {
-        this.id = id;
+
+    public typeStore(int typeId, String typename) {
         this.typeId = typeId;
         this.typename = typename;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getTypeId() {

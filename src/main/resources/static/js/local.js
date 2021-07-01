@@ -96,3 +96,65 @@ function sendAddr(){
     });
 
 }
+
+
+function typeAjax(obj) {
+    $.ajax({
+        type:'post',
+        url:'/mangerType',
+        dataType:'text',
+        async:false,
+        data:JSON.stringify(obj),
+        contentType:'text/plain',
+        success:function (data) {
+            layer.alert(data);
+        },
+        error:function (data) {
+            layer.alert("请求超时！")
+        }
+    });
+}
+
+function typeDiv(actionId,divTitle) {
+    var table = layui.table;
+    layer.open({
+        type:'1',
+        content:$('.addTypePage'),
+        title:divTitle,
+        area:['430px','195px'],
+        btn:['提交','重置','取消'],
+        closeBtn:'1',
+        btn1:function (index,layero) {
+            //提交回调
+            var typeName = $('#typeStore').val();
+            if(typeStore.length<=0){
+                layer.alert("类别不能为空");
+                return false;
+            }
+            var params = {};
+            if(actionId ==2) {
+                params.action = actionId;
+                params.data = typeName;
+            }else{
+                params.action = 1;
+                var data_ = {};
+                data_.id = actionId;
+                data_.type = typeName;
+                params.data =data_;
+            }
+            typeAjax(params);
+            layer.close(index);
+            table.reload('goodsType', {});
+        },
+
+        btn2:function (index,layero) {
+            //重置回调
+            var typeStore = $('#typeStore').val("");
+            // 防止添加页面关闭
+            return false;
+        },
+        btn3:function (index,layero) {
+            //取消回调
+        }
+    })
+}

@@ -14,12 +14,15 @@ public interface typeMapper {
     @Update("update user set role=#{status} where username=#{username}")
     public void updateRole(@Param("status") String status,@Param("username") String username);*/
     // 导出表信息
-    @Select("select * from typestore")
-    public List<typeStore> getType();
+    @Select("select * from goodstype")
+    public List<typeStore> getTypeList();
     //插入一条数据
-    @Insert("insert into typestore (`id`, `typeId`, `typename`) values(#{id},#{typeId},#{typename})")
+    @Insert("insert into goodstype (`typeid`, `typename`) values(#{typeId},#{typename})")
     public void insertType(typeStore typestore);
 
-    @Delete("delect from typestore where typeId =  #{typeId}")
+    @Delete("delete from goodstype where typeid =  #{typeId}")
     public void delectType(@Param("typeId") int typeId);
+
+    @Update("update goodstype set typename=#{typename} where typeid = #{typeId}")
+    public void updateType(typeStore type);
 }
