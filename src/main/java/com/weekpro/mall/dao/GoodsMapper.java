@@ -18,7 +18,9 @@ public interface GoodsMapper {
     public List<Goods> getmMerchantGoods(@Param("username") String username);
 
     //添加商品
-    @Insert("insert into goods (`goodsId`, `goodsName`, `price`, `salesvolume`, `username`, `typename`,`goodsImg`) values(#{goodsId},#{goodsName}),#{price}),#{salesvolume}),#{username}),#{typename}),#{goodsImg})")
+    @Insert("insert into goods (`goodsId`, `goodsName`, `price`, `salesvolume`, " +
+            "`username`, `typename`,`goodsImg`) values(#{goodsId},#{goodsName})," +
+            "#{price}),#{salesvolume}),#{username}),#{typename}),#{goodsImg})")
     public void addGoods(Goods goods);
 
     //删除商品

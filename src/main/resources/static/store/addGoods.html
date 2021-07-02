@@ -8,14 +8,7 @@
   <meta name="renderer" content="webkit">
   <!--国产浏览器高速模式-->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="穷在闹市" />
-  <!-- 作者 -->
-  <meta name="revised" content="穷在闹市.v3, 2019/05/01" />
-  <!-- 定义页面的最新版本 -->
-  <meta name="description" content="网站简介" />
-  <!-- 网站简介 -->
-  <meta name="keywords" content="搜索关键字，以半角英文逗号隔开" />
-  <title>穷在闹市出品</title>
+  <title>3241出品</title>
 
   <!-- 公共样式 开始 -->
   <link rel="stylesheet" type="text/css" href="../css/base.css">
@@ -47,72 +40,95 @@
 
 <body>
 <div class="cBody">
-  <form id="addForm" class="layui-form" action="">
+  <div class="layui-form">
     <div class="layui-form-item">
       <label class="layui-form-label">商品名称</label>
       <div class="layui-input-block">
-        <input type="text" name="goodsName" required lay-verify="required" autocomplete="off" class="layui-input">
+        <input type="text" id="goodsName" required lay-verify="required" autocomplete="off" class="layui-input">
       </div>
     </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">商品图片</label>
-      <div class="layui-upload-drag" id="goodsPic">
-        <i class="layui-icon"></i>
-        <p>点击上传，或将文件拖拽到此处</p>
+    <label class="layui-form-label">商品图片</label>
+    <div class="layui-upload-drag" id="goodsPic">
+      <i class="layui-icon layui-icon-upload"></i>
+      <p>点击上传，或将文件拖拽到此处</p>
+      <div class="layui-hide" id="uploadDemoView">
+        <hr>
+        <img src="" alt="上传成功后渲染" style="max-width: 196px">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">参考价格</label>
       <div class="layui-input-block">
-        <input type="text" name="price" required lay-verify="required|number" autocomplete="off" class="layui-input">
+        <input type="text" id="price" required lay-verify="required|number" autocomplete="off" class="layui-input">
       </div>
     </div>
-
     <div class="layui-form-item">
       <label class="layui-form-label">分类</label>
       <div class="layui-input-inline">
-        <select name="provid" id="provid" lay-filter="provid">
-          <option value="">一级分类</option>
-          <option value="0">北京</option>
-          <option value="1">上海</option>
-          <option value="2">广州</option>
-          <option value="3">深圳</option>
-          <option value="4">杭州</option>
+        <select  id="provid">
+          <option value="">选择分类</option>
         </select>
       </div>
     </div>
-
     <div class="layui-form-item">
       <div class="layui-input-block">
-        <button class="layui-btn" lay-submit lay-filter="submitBut">立即提交</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        <button type="button" class="layui-btn"  id="submitBut">立即提交</button>
       </div>
     </div>
-  </form>
-
-
+  </div>
   <script>
+
     layui.use(['upload','form'], function() {
       var form = layui.form;
       var upload = layui.upload;
       var layer = layui.layer;
-      //监听提交
-      form.on('submit(submitBut)', function(data) {
-        return false;
-      });
-      form.verify({
-        //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
-        ZHCheck: [
-          /^[\u0391-\uFFE5]+$/
-          ,'只允许输入中文'
-        ]
-      });
-      //拖拽上传
+      window.onload = function (){
+        $.ajax({
+          type:'GET',
+          url:'/getTypeList',
+          dataType:'json',
+          success:function (data) {
+            var tes = '';
+            for(var i = 0;i<data.count;i++){
+             $('#provid').append("<option value=\""+data.data[i].id+"\">"+data.data[i].type+"</option>");
+            }
+            layui.form.render("select");
+          },
+          error:function (data) {
+            layer.alert("请求超时！")
+          }
+        });
+      };
       upload.render({
         elem: '#goodsPic',
-        url: '/upload/',
-        done: function(res) {
-          console.log(res)
+        url: '/addGoods',
+        accept:"images",
+        acceptMime:"image/*",
+        bindAction:'#submitBut',
+        auto: false,
+        data:{
+          params: ''
+        },
+        before:function (obj){
+          var map = {};
+          map.storename = $('#goodsName').val();
+          map.storeprice = $('#price').val();
+          map.storeprovid = $('#provid').val();
+          this.data.params = JSON.stringify(map);
+        },
+        choose:function (obj) {
+          obj.preview(function(index, file, result) {
+            $('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', result);
+          });
+        },
+        done: function(res){
+          if(res.code ==0)
+            layer.msg('操作成功');
+          else
+            layer.msg(res.msg);
+        },
+        error:function () {
+          layer.msg('操作失败');
         }
       });
     });

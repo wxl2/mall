@@ -36,3 +36,16 @@ CREATE TABLE `mall`.`goodstype`  (
   `typename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+CREATE TABLE `mall`.`goods`  (
+  `goodsid` int(15) NOT NULL,
+  `goodsname` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `price` float(10, 2) NOT NULL,
+  `typeid` int(5) NOT NULL,
+  `imgurl` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `goodsuser` varchar(25) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`goodsid`),
+  UNIQUE INDEX `goodsid`(`goodsid`),
+  CONSTRAINT `goodsuser` FOREIGN KEY (`goodsuser`) REFERENCES `mall`.`user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `goodstype` FOREIGN KEY (`typeid`) REFERENCES `mall`.`goodstype` (`typeid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;

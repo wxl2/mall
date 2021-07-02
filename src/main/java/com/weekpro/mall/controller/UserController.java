@@ -49,6 +49,7 @@ public class UserController {
             res.put("data", "user.html");
             request.getSession().setAttribute("user",user.getUsername());
         }
+        request.getSession().setAttribute("username",user.getUsername());
         return res;
     }
     @PostMapping("/register")
@@ -66,15 +67,7 @@ public class UserController {
     }
     @GetMapping("/getuser")
     public Map<String,Object> getUser(HttpServletResponse response, HttpServletRequest request){
-        User user = new User();
-        if(request.getSession().getAttribute("admin")!=null){
-            user = userService.getUser((String)request.getSession().getAttribute("admin"));
-        }
-        else if(request.getSession().getAttribute("user")!=null){
-            user = userService.getUser((String)request.getSession().getAttribute("user"));
-        }else if(request.getSession().getAttribute("store")!=null){
-            user = userService.getUser((String)request.getSession().getAttribute("store"));
-        }
+        User user = userService.getUser((String)request.getSession().getAttribute("username"));
         if(user==null)
             return null;
         Map<String, Object> res = new HashMap<String, Object>();
