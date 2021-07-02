@@ -20,13 +20,11 @@ public interface typeMapper {
     //插入一条数据
     @Insert("insert into goodstype (`typeid`, `typename`) values(#{typeId},#{typename})")
     public void insertType(typeStore typestore);
-
+    //删除类别
     @Delete("delete from goodstype where typeid =  #{typeId}")
     public void delectType(@Param("typeId") int typeId);
-
+    //修改类别名和类别id
     @Update("update goodstype set typename=#{typename} where typeid = #{typeId}")
     public void updateType(typeStore type);
-    //添加商品
-    @Insert("insert into goods (`goodsId`, `goodsName`, `price`, `salesvolume`, `username`, `typename`,`goodsImg`) values(#{goodsId},#{goodsName}),#{price}),#{salesvolume}),#{username}),#{typename}),#{goodsImg})")
-    public void addGoods(Goods goods);
+
 }

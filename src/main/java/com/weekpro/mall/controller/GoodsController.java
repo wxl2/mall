@@ -71,4 +71,7 @@ public class GoodsController {
         typeService.addGoods(map);
         return "添加成功";
     }
+
+    //删除商品
+//    @PostMapping("/deleteGoods")
 }
