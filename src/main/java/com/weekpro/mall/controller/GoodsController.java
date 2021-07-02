@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.weekpro.mall.entity.typeStore;
 import com.weekpro.mall.service.goodsService;
+import com.weekpro.mall.service.typeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,11 @@ import java.util.Map;
 @RestController
 public class GoodsController {
     @Autowired
-    private goodsService typeService;
+    private typeService typeService;
+
+    @Autowired
+    private goodsService goodsService;
+
 
     @GetMapping("/getTypeList")
     public Map<String,Object> getTypeList(){
@@ -68,10 +73,14 @@ public class GoodsController {
     // 添加商品
     @PostMapping("/addGoods")
     public String addGoods(@RequestBody Map<String,Object> map){
-        typeService.addGoods(map);
+        goodsService.addGoods(map);
         return "添加成功";
     }
 
     //删除商品
 //    @PostMapping("/deleteGoods")
+//    public String deleteGoods(@RequestBody int goodsId){
+//        goodsService.deleteGoods(goodsId);
+//        return "删除成功";
+//    }
 }
