@@ -1,6 +1,7 @@
 package com.weekpro.mall.service;
 
 import com.weekpro.mall.dao.typeMapper;
+import com.weekpro.mall.entity.Goods;
 import com.weekpro.mall.entity.typeStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,19 @@ public class goodsService {
     public int typeUpdate(typeStore store){
         try {
             typeMapper_.updateType(store);
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+        return 0;
+    }
+
+    // 添加商品
+    public int addGoods(Map<String,Object> map){
+        try {
+            //  生成商品编号，得到用户名字,获取类型Id
+            Goods goods = new Goods((String) map.get("goodsName"),(float) 271,0,"userName",42,(String) map.get("goodsType"),(String) map.get("goodsImg"));
+            typeMapper_.addGoods(goods);
         }catch (Exception e){
             e.printStackTrace();
             return -1;

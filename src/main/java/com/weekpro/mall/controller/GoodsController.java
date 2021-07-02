@@ -64,4 +64,11 @@ public class GoodsController {
         }
         return "操作失败";
     }
+
+    // 添加商品
+    @PostMapping("/addGoods")
+    public String addGoods(@RequestBody Map<String,Object> map){
+        typeService.addGoods(map);
+        return "添加成功";
+    }
 }

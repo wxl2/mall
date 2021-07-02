@@ -1,5 +1,6 @@
 package com.weekpro.mall.dao;
 
+import com.weekpro.mall.entity.Goods;
 import com.weekpro.mall.entity.User;
 import com.weekpro.mall.entity.typeStore;
 import org.apache.ibatis.annotations.*;
@@ -25,4 +26,7 @@ public interface typeMapper {
 
     @Update("update goodstype set typename=#{typename} where typeid = #{typeId}")
     public void updateType(typeStore type);
+    //添加商品
+    @Insert("insert into goods (`goodsId`, `goodsName`, `price`, `salesvolume`, `username`, `typename`,`goodsImg`) values(#{goodsId},#{goodsName}),#{price}),#{salesvolume}),#{username}),#{typename}),#{goodsImg})")
+    public void addGoods(Goods goods);
 }
