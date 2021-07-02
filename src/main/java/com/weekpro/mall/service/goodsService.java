@@ -23,7 +23,7 @@ public class goodsService {
 	public int addGoods(Map<String,Object> map){
 		try {
 			//  生成商品编号，得到用户名字,获取类型Id
-			Goods goods = new Goods((String) map.get("goodsName"),(float) 271,0,"userName",42,(String) map.get("goodsType"),(String) map.get("goodsImg"));
+			Goods goods = new Goods((String) map.get("goodsName"),(float) 271,0,"userName",42,(String) map.get("goodsType"),(String) map.get("goodsImg"),1);
 			goodsMapper_.addGoods(goods);
 		}catch (Exception e){
 			e.printStackTrace();
@@ -33,13 +33,13 @@ public class goodsService {
 	}
 
 	//删除商品
-//	public int deleteGoods(int goodsId){
-//		try{
-//			goodsMapper_.deleteGoods(goodsId);
-//		}catch (Exception e){
-//			e.printStackTrace();
-//			return -1;
-//		}
-//		return 0;
-//	}
+	public int deleteGoods(int goodsId){
+		try{
+			goodsMapper_.deleteGoods(goodsId);
+		}catch (Exception e){
+			e.printStackTrace();
+			return -1;
+		}
+		return 0;
+	}
 }

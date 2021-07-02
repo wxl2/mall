@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
+  <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-btn-container" align="center">
+  <button data-method="offset" id="addType" data-type="auto" class="layui-btn layui-btn-normal">删除商品</button>
+</div>
+</body>
+<script>
+  var $ = layui.$,layer = layui.layer,form = layui.form;
+  addType.onclick = function(){
+    alert("执行");
+    var str ={};
+    str.goodsId="1";
+    $.ajax({
+      type: "POST",
+      url: "/deleteGoods",
+      data:JSON.stringify(str),
+      contentType:'application/JSON',
+      success: function (data) {
+        alert("成功");
+      },
+      error: function () {
+        alert("error");
+      }
+    });
+  }
+
+</script>
+</html>

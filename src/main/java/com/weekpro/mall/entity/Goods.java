@@ -9,6 +9,7 @@ public class Goods {
     int typeId;
     String typename;
     String goodsImg;
+    int goodsId;
 
     public String getGoodsImg() {
         return goodsImg;
@@ -66,7 +67,15 @@ public class Goods {
         this.typename = typename;
     }
 
-    public Goods(String goodsName, float price, int salesVolume, String userName, int typeId, String typename, String goodsImg) {
+    public int getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(int goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public Goods(String goodsName, float price, int salesVolume, String userName, int typeId, String typename, String goodsImg, int goodsId) {
         this.goodsName = goodsName;
         this.price = price;
         this.salesVolume = salesVolume;
@@ -74,6 +83,7 @@ public class Goods {
         this.typeId = typeId;
         this.typename = typename;
         this.goodsImg = goodsImg;
+        this.goodsId = goodsId;
     }
 
     public Goods(){}

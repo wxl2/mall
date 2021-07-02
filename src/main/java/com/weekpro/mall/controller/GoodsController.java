@@ -78,9 +78,10 @@ public class GoodsController {
     }
 
     //删除商品
-//    @PostMapping("/deleteGoods")
-//    public String deleteGoods(@RequestBody int goodsId){
-//        goodsService.deleteGoods(goodsId);
-//        return "删除成功";
-//    }
+    @PostMapping("/deleteGoods")
+    public String deleteGoods(@RequestBody Map<String,Object> map){
+
+        goodsService.deleteGoods(1);
+        return "删除成功";
+    }
 }

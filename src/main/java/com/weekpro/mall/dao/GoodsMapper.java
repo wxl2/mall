@@ -24,4 +24,6 @@ public interface GoodsMapper {
     //删除商品
     @Delete("delete from goods where goodsId =  #{goodsId}")
     public void deleteGoods(@Param("goodsId") int goodsId);
+
+
 }
