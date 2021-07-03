@@ -127,8 +127,9 @@ public class GoodsController {
     public String deleteGoods(@RequestBody String text){
         JSONObject obj = JSON.parseObject(text);
 
-        goodsService.deleteGoods(obj.getInteger("goodsid"));
-        return "删除成功";
+        if(goodsService.deleteGoods(obj.getInteger("goodsid")) == 0)
+            return "删除成功";
+        return "删除失败";
     }
     // 查询商家商品
     @GetMapping("/getGoodsUser")
@@ -167,6 +168,14 @@ public class GoodsController {
             map.put("data",c_list);
         }
         return map;
+    }
+
+    @PostMapping("/changeGoods")
+    public String changeGoods(@RequestParam(value ="file",required = false) MultipartFile file, @RequestParam("params")String params) {
+        JSONObject obj = JSON.parseObject(params);
+        if((!obj.getString("imgurl").isEmpty())&&file==null)
+            return "操作失败";
+        return "操作成功";
     }
 
 }

@@ -112,6 +112,8 @@
                //body.contents().find("#goodsurl").val(data.goodsname);
                 body.contents().find("#price").val(data.price);
                 body.contents().find("#goodstype").val(data.typename);
+                var iframe = window['layui-layer-iframe' + index];
+                iframe.setval(data.goodsid);
               }
             });
           });
