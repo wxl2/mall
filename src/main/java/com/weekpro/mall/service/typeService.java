@@ -1,14 +1,13 @@
 package com.weekpro.mall.service;
 
-import com.weekpro.mall.dao.GoodsMapper;
 import com.weekpro.mall.dao.typeMapper;
-import com.weekpro.mall.entity.Goods;
+import com.weekpro.mall.entity.GoodsType;
 import com.weekpro.mall.entity.typeStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Map;
+
+
 @Service("typeService")
 public class typeService {
     @Autowired
@@ -57,4 +56,14 @@ public class typeService {
         return 0;
     }
 
+    //根据typeid查询类别名称
+    public String getTypeName(int typeid){
+        try {
+            GoodsType goodsType = typeMapper_.getTypeName(typeid);
+            return goodsType.getTypeName();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

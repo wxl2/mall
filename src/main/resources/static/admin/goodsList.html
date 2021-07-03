@@ -8,11 +8,92 @@
     <!--国产浏览器高速模式-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>3241出品</title>
-
+    <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
     <script type="text/javascript" src="../layui/layui.js"></script>
+    <script type="text/javascript" src="../js/local.js" ></script>
 </head>
-<body>
-<p>商品列表</p>
+<body style="background-color: white">
+<p align="center">商品列表</p>
+<table class="layui-hide" id="goods" lay-filter="goodsType"></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 </body>
+<style>
+    .typecss{
+        width: 300px;
+        height: 40px;
+        padding-left: 130px;
+        padding-top: 30px;
+    }
+</style>
+<script>
+    var $ = layui.$,layer = layui.layer,form = layui.form;
+    var str = {};
+    $(function () {
+        window.onload = function () {
+            setRole();
+        };
+    });
+    function setRole() {
+        //载入 更改用户身份
+        $.ajax({
+            type: "GET",
+            url: "/getuser",
+            success: function (data) {
+                str.username = data.username;
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
+
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            type:"GET",
+            elem: '#goods'
+            ,url:'/getGoods'
+            ,title: '商品'
+            ,data: JSON.stringify(str)
+            ,cols: [[
+                {field:'goodsid', width:150, title:'商品编号'}
+                ,{field:'goodsname', width:150, title:'商品名'}
+                ,{field:'typename', width:120, title:'商品类型'}
+                ,{field:'price', width:80, title:'价格'}
+                ,{field:'goodsuser', width:150, title:'价格'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+            ]]
+            ,page: true
+            ,success:function (data) {
+                alert("成功");
+                console.log(data);
+            },
+            error:function (data) {
+                alert("失败");
+                console.log(data);
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(goodsType)', function(obj){
+            var data = obj.data;
+            var $ = layui.$, layer = layui.layer, form = layui.form;
+            var params = {};
+            params.goodsid = data.goodsid;
+            if(obj.event === 'del'){
+                postAjax(params,'/deleteGoods','text','text/plain');
+                table.reload('goodsType', {});
+                obj.del();
+                layer.close(index);
+            } else if(obj.event === 'edit'){
+                typeDiv(data.id,'编辑');
+            }
+        });
+
+    });
+</script>
 </html>

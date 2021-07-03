@@ -8,24 +8,25 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GoodsMapper {
-    @Select("select * from goods")
-    public List<Goods> getGoods();
+
 
     // 商家页面显示商家自己的商品
-    @Select("select * from goods where username = #{username}")
-    public List<Goods> getmMerchantGoods(@Param("username") String username);
+    @Select("select goods.*,goodstype.typename from goods left join goodstype on goods.typeid = goodstype.typeid where goodsuser = #{username}")
+    public List<Map<String,Object>> getGoodsUser(@Param("username") String username);
+
+    //查询所有商品
+    @Select("select goods.*,goodstype.typename from goods left join goodstype on goods.typeid = goodstype.typeid")
+    public List<Map<String,Object>> getGoods();
 
     //添加商品
-    @Insert("insert into goods (`goodsId`, `goodsName`, `price`, `salesvolume`, " +
-            "`username`, `typename`,`goodsImg`) values(#{goodsId},#{goodsName})," +
-            "#{price}),#{salesvolume}),#{username}),#{typename}),#{goodsImg})")
+    @Insert("INSERT INTO `goods`(`goodsid`, `goodsname`, `price`, `typeid`, `imgurl`, `goodsuser`) VALUES (#{goodsid},#{goodsname}," +
+            "#{price},#{typeid},#{imgurl},#{goodsuser})")
     public void addGoods(Goods goods);
 
     //删除商品
-    @Delete("delete from goods where goodsId =  #{goodsId}")
+    @Delete("delete from goods where goodsid =  #{goodsId}")
     public void deleteGoods(@Param("goodsId") int goodsId);
-
-
 }

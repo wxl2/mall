@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+  <!-- Google Chrome Frame也可以让IE用上Chrome的引擎: -->
+  <meta name="renderer" content="webkit">
+  <!--国产浏览器高速模式-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3241出品</title>
+  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
+  <script type="text/javascript" src="../layui/layui.js"></script>
+  <script type="text/javascript" src="../js/local.js" ></script>
+</head>
+<body style="background-color: white">
+<p align="center">商品</p>
+<table class="layui-hide" id="goods" lay-filter="goodsType"></table>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+</body>
+<style>
+  .typecss{
+    width: 300px;
+    height: 40px;
+    padding-left: 130px;
+    padding-top: 30px;
+  }
+</style>
+<script>
+  var $ = layui.$,layer = layui.layer,form = layui.form;
+  var str = {};
+  $(function () {
+    window.onload = function () {
+      setRole();
+    };
+  });
+  function setRole() {
+    //载入 更改用户身份
+    $.ajax({
+      type: "GET",
+      url: "/getuser",
+      success: function (data) {
+        str.username = data.username;
+      },
+      error: function () {
+        alert("error");
+      }
+    });
+  }
+
+  layui.use('table', function(){
+    var table = layui.table;
+    table.render({
+      type:"GET",
+      elem: '#goods'
+      ,url:'/getGoodsUser'
+      ,title: '商品'
+      ,data: JSON.stringify(str)
+      ,cols: [[
+        {field:'goodsid', width:150, title:'商品编号'}
+        ,{field:'goodsname', width:150, title:'商品名'}
+        ,{field:'typename', width:120, title:'商品类型'}
+        ,{field:'price', width:80, title:'价格'}
+        ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+      ]]
+      ,page: true
+      ,success:function (data) {
+        alert("成功");
+        console.log(data);
+      },
+      error:function (data) {
+        alert("失败");
+        console.log(data);
+      }
+    });
+
+    //监听行工具事件
+    table.on('tool(goodsType)', function(obj){
+      var data = obj.data;
+      var $ = layui.$, layer = layui.layer, form = layui.form;
+      var params = {};
+      params.goodsid = data.goodsid;
+      if(obj.event === 'del'){
+        postAjax(params,'/deleteGoods','text','text/plain');
+        table.reload('goodsType', {});
+        obj.del();
+        //layer.close(index);
+      } else if(obj.event === 'edit'){
+        //修改按钮
+        console.log(obj);
+        var updateFrame = null;
+        updateBut();
+        function updateBut(){
+          layui.use('layer', function() {
+            var layer = layui.layer;
+            //iframe层-父子操作
+            updateFrame = layer.open({
+              title: "商品信息修改",
+              type: 2,
+              area: ['70%', '80%'],
+              scrollbar: false,	//默认：true,默认允许浏览器滚动，如果设定scrollbar: false，则屏蔽
+              maxmin: true,
+              content: 'goods_update.html',
+              success: function(layero, index) {
+                var body = layer.getChildFrame('body', index);//少了这个是不能从父页面向子页面传值的
+                //获取子页面的元素，进行数据渲染
+                body.contents().find("#goodsName").val(data.goodsname);
+                // 商品图地址
+               //body.contents().find("#goodsurl").val(data.goodsname);
+                body.contents().find("#price").val(data.price);
+                body.contents().find("#goodstype").val(data.typename);
+              }
+            });
+          });
+        }
+
+      }
+    });
+
+  });
+</script>
+</html>

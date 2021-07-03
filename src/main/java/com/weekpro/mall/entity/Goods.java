@@ -2,37 +2,29 @@ package com.weekpro.mall.entity;
 
 public class Goods {
 
-    String goodsName;
+    String goodsname;
     float price;
-    int salesVolume;
-    String userName;
-    int typeId;
-    String typename;
-    String goodsImg;
-    int goodsId;
+    String goodsuser;
+    int typeid;
+    String imgurl;
+    int goodsid;
 
-    public String getGoodsImg() {
-        return goodsImg;
+    public Goods(String goodsname, float price, String goodsuser, int typeid, String imgurl, int goodsid) {
+        this.goodsname = goodsname;
+        this.price = price;
+        this.goodsuser = goodsuser;
+        this.typeid = typeid;
+        this.imgurl = imgurl;
+        this.goodsid = goodsid;
+    }
+    public Goods(){}
+
+    public String getGoodsname() {
+        return goodsname;
     }
 
-    public void setGoodsImg(String goodsImg) {
-        this.goodsImg = goodsImg;
-    }
-
-    public int getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
-    }
-
-    public String getGoodsName() {
-        return goodsName;
-    }
-
-    public void setGoodsName(String goodsName) {
-        this.goodsName = goodsName;
+    public void setGoodsname(String goodsname) {
+        this.goodsname = goodsname;
     }
 
     public float getPrice() {
@@ -43,48 +35,35 @@ public class Goods {
         this.price = price;
     }
 
-    public int getSalesVolume() {
-        return salesVolume;
+    public String getGoodsuser() {
+        return goodsuser;
     }
 
-    public void setSalesVolume(int salesVolume) {
-        this.salesVolume = salesVolume;
+    public void setGoodsuser(String goodsuser) {
+        this.goodsuser = goodsuser;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getTypeid() {
+        return typeid;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setTypeid(int typeid) {
+        this.typeid = typeid;
     }
 
-    public String getTypename() {
-        return typename;
+    public String getImgurl() {
+        return imgurl;
     }
 
-    public void setTypename(String typename) {
-        this.typename = typename;
+    public void setImgurl(String imgurl) {
+        this.imgurl = imgurl;
     }
 
-    public int getGoodsId() {
-        return goodsId;
+    public int getGoodsid() {
+        return goodsid;
     }
 
-    public void setGoodsId(int goodsId) {
-        this.goodsId = goodsId;
+    public void setGoodsid(int goodsid) {
+        this.goodsid = goodsid;
     }
-
-    public Goods(String goodsName, float price, int salesVolume, String userName, int typeId, String typename, String goodsImg, int goodsId) {
-        this.goodsName = goodsName;
-        this.price = price;
-        this.salesVolume = salesVolume;
-        this.userName = userName;
-        this.typeId = typeId;
-        this.typename = typename;
-        this.goodsImg = goodsImg;
-        this.goodsId = goodsId;
-    }
-
-    public Goods(){}
 }

@@ -2,6 +2,7 @@ package com.weekpro.mall.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.weekpro.mall.entity.Goods;
 import com.weekpro.mall.entity.typeStore;
 import com.weekpro.mall.service.goodsService;
 import com.weekpro.mall.service.typeService;
@@ -12,9 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class GoodsController {
@@ -75,7 +79,8 @@ public class GoodsController {
 
     // 添加商品
     @PostMapping("/addGoods")
-    public Map<String,Object> addGoods(@RequestParam("file") MultipartFile file, @RequestParam("params")String params) {
+    public Map<String,Object> addGoods(@RequestParam("file") MultipartFile file, @RequestParam("params")String params,
+                                       HttpServletRequest request) {
         Map<String,Object> map = new HashMap<String,Object>();
         JSONObject obj = JSON.parseObject(params);
         if(file == null){
@@ -105,6 +110,10 @@ public class GoodsController {
             String filePath = path+'/'+fileName;
             File dest = new File(filePath);
             file.transferTo(dest);
+            int goodsid = (int)(Math.random()*100000);
+            goodsService.addGoods(new Goods(obj.getString("storename"),obj.getFloat("storeprice")
+            ,(String) request.getSession().getAttribute("username"),obj.getInteger("storeprovid"),
+                    fileName,goodsid));
             map.put("code",0);
         }catch (Exception e){
             e.printStackTrace();
@@ -113,11 +122,51 @@ public class GoodsController {
         return map;
     }
 
-    //删除商品
+    //删除商品deleteGoods
     @PostMapping("/deleteGoods")
-    public String deleteGoods(@RequestBody Map<String,Object> map){
+    public String deleteGoods(@RequestBody String text){
+        JSONObject obj = JSON.parseObject(text);
 
-        goodsService.deleteGoods(1);
+        goodsService.deleteGoods(obj.getInteger("goodsid"));
         return "删除成功";
     }
+    // 查询商家商品
+    @GetMapping("/getGoodsUser")
+    public Map<String,Object> getGoodsUser(HttpServletRequest request){
+        String username = (String) request.getSession().getAttribute("username");
+        Map<String,Object> map = new HashMap<String,Object>();
+        List<Map<String,Object>> c_list = goodsService.getGoodsUser(username);
+        if(c_list == null){
+            map.put("code","-1");
+            map.put("msg","暂无数据");
+            map.put("count",0);
+            map.put("data","[]");
+        }
+        else{
+            map.put("code","0");
+            map.put("msg","ok");
+            map.put("count",c_list.size());
+            map.put("data",c_list);
+        }
+        return map;
+    }
+    @GetMapping("/getGoods")
+    public Map<String,Object> getGoods(){
+        Map<String,Object> map = new HashMap<String,Object>();
+        List<Map<String,Object>> c_list = goodsService.getGoods();
+        if(c_list == null){
+            map.put("code","-1");
+            map.put("msg","暂无数据");
+            map.put("count",0);
+            map.put("data","[]");
+        }
+        else{
+            map.put("code","0");
+            map.put("msg","ok");
+            map.put("count",c_list.size());
+            map.put("data",c_list);
+        }
+        return map;
+    }
+
 }

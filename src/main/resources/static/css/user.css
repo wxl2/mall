@@ -1,0 +1,17 @@
+.head1 {
+    margin-top: 30px;
+    min-width: 100% ;
+    position: relative;
+    border-bottom: 1px solid #e0e0e0;
+}
+.head1 ul{
+    text-align: center;
+}
+.head1 ul li{
+    display: inline;
+    font-size: 20px;
+    margin-left: 50px;
+}
+.head1 ul li:hover{
+    opacity: 0.7;
+}

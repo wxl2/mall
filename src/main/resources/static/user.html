@@ -5,24 +5,31 @@
     <title>最家</title>
     <link rel="shortcut icon" href="./images/favicon.ico"/>
     <link rel="bookmark" href="./images/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="./css/frameStyle.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/user.css"/>
     <link rel="stylesheet" type="text/css" href="./layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/frameStyle.css"/>
+
 </head>
 <body>
 <!------------------------------head------------------------------>
-<div class="head">
-    <div class="wrapper clearfix">
+<div class="head1">
+    <div class="clearfix" style="width: 100%">
         <div class="clearfix" id="top">
-            <h1 class="fl"><a href="#"><img src="./images/logo2.png"/></a></h1>
-            <div class="fr clearfix" id="top1">
-                <div class="btn fl clearfix">
-                    <a href="information.html"><i class="layui-icon layui-icon-username incSize" title="个人中心"></i></a>
+            <h1 style="position: relative;left: 150px"><a href="#"><img src="./images/logo2.png"/></a></h1>
+            <div class="frameTop" >
+
+                <div class="topMenu" style="    position: relative;bottom: 37px;right: 133px;">
+                    <a href="information.html" title="个人信息"  ><i class="layui-icon layui-icon-username incSize"></i>&nbsp;&nbsp;</a>
+
+                    <a href="index.html" title="注销">&nbsp;&nbsp;<i class="layui-icon layui-icon-logout incSize"></i></a>
                 </div>
             </div>
+
         </div>
-        <div style="width: 100%;    position: relative;left: 194px;">
-            <ul class="clearfix" id="bott">
-                <li>
+
+        <div style="width: 100%;">
+            <ul id="bott">
+                <li >
                     <a href="#">首页</a>
                 </li>
                 <li>
@@ -37,21 +44,71 @@
             </ul>
         </div>
     </div>
-
-    <div style="background-color: #00F7DE;width: 100%">
-
-        <p style="height: 100px">212</p>
-        <p style="height: 100px">212</p>
-        <p style="height: 100px">212</p>
-        <p style="height: 100px">212</p>
-        <p style="height: 100px">212</p>
-        <p style="height: 100px">212</p>
-        <p style="height: 100px">212</p>
-        <p style="height: 100px">212</p><p style="height: 100px">212</p>
-
-
-
+</div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>填充轮播元素 - 以图片为例</legend>
+</fieldset>
+<div style="width: 100%;text-align: center">
+    <div class="layui-carousel" id="test10" style="float: none;text-align: center">
+        <div carousel-item="">
+            <div><img src="./images/goods/2-6.png"></div>
+            <div><img src="./images/goods/2-6.png"></div>
+            <div><img src="./images/goods/2-6.png"></div>
+            <div><img src="./images/goods/2-6.png"></div>
+            <div><img src="./images/goods/2-6.png"></div>
+            <div><img src="./images/goods/2-6.png"></div>
+            <div><img src="./images/goods/2-6.png"></div>
+        </div>
     </div>
 </div>
+
+
+
+<script src="./layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+    layui.use(['carousel', 'form'], function(){
+        var carousel = layui.carousel
+            ,form = layui.form;
+
+        //改变下时间间隔、动画类型、高度
+        carousel.render({
+            elem: '#test2'
+            ,interval: 1800
+            ,anim: 'fade'
+            ,height: '120px'
+        });
+
+        //设定各种参数
+        var ins3 = carousel.render({
+            elem: '#test3'
+        });
+        //图片轮播
+        carousel.render({
+            elem: '#test10'
+            ,width: '778px'
+            ,height: '440px'
+            ,interval: 5000
+        });
+
+        //事件
+        carousel.on('change(test4)', function(res){
+            console.log(res)
+        });
+
+        var $ = layui.$, active = {
+            set: function(othis){
+                var THIS = 'layui-bg-normal'
+                    ,key = othis.data('key')
+                    ,options = {};
+
+                othis.css('background-color', '#5FB878').siblings().removeAttr('style');
+                options[key] = othis.data('value');
+                ins3.reload(options);
+            }
+        };
+    });
+</script>
+
 </body>
 </html>

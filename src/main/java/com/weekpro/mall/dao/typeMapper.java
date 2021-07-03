@@ -1,19 +1,13 @@
 package com.weekpro.mall.dao;
 
 import com.weekpro.mall.entity.Goods;
-import com.weekpro.mall.entity.User;
+import com.weekpro.mall.entity.GoodsType;
 import com.weekpro.mall.entity.typeStore;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
-import java.util.Map;
 
 public interface typeMapper {
-    /*
-    @Select("select * from user where username = #{username}")
-    public User getUserByUserName(@Param("username") String username);
-    @Update("update user set role=#{status} where username=#{username}")
-    public void updateRole(@Param("status") String status,@Param("username") String username);*/
     // 导出表信息
     @Select("select * from goodstype")
     public List<typeStore> getTypeList();
@@ -27,4 +21,6 @@ public interface typeMapper {
     @Update("update goodstype set typename=#{typename} where typeid = #{typeId}")
     public void updateType(typeStore type);
 
+    @Select("select * from goodstype where typeid = #{typeid}")
+    public GoodsType getTypeName(@Param("typeid") int typeid);
 }

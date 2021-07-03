@@ -5,6 +5,7 @@ import com.weekpro.mall.entity.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,14 +18,13 @@ import java.util.Map;
 @Service("goodsService")
 public class goodsService {
 	@Autowired
-	private GoodsMapper goodsMapper_;
+	private GoodsMapper goodsMapper;
 
 	// 添加商品
-	public int addGoods(Map<String,Object> map){
+	public int addGoods(Goods goods){
 		try {
 			//  生成商品编号，得到用户名字,获取类型Id
-			Goods goods = new Goods((String) map.get("goodsName"),(float) 271,0,"userName",42,(String) map.get("goodsType"),(String) map.get("goodsImg"),1);
-			goodsMapper_.addGoods(goods);
+			goodsMapper.addGoods(goods);
 		}catch (Exception e){
 			e.printStackTrace();
 			return -1;
@@ -35,11 +35,32 @@ public class goodsService {
 	//删除商品
 	public int deleteGoods(int goodsId){
 		try{
-			goodsMapper_.deleteGoods(goodsId);
+			goodsMapper.deleteGoods(goodsId);
 		}catch (Exception e){
 			e.printStackTrace();
 			return -1;
 		}
 		return 0;
+	}
+
+	//查询全部商品
+	public List<Map<String,Object>> getGoods(){
+		try{
+			List<Map<String,Object>> list = goodsMapper.getGoods();
+			return  list;
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
+
+	}	//查询user商品
+	public List<Map<String,Object>> getGoodsUser(String username){
+		try{
+			List<Map<String,Object>> list = goodsMapper.getGoodsUser(username);
+			return  list;
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
