@@ -29,6 +29,9 @@
     padding-top: 30px;
   }
 </style>
+<script type="text/html" id="imgtmp">
+  <img src="../images/goods/{{d.imgurl}}" width="28" height="28"  />
+</script>
 <script>
   var $ = layui.$,layer = layui.layer,form = layui.form;
   var str = {};
@@ -62,9 +65,10 @@
       ,cols: [[
         {field:'goodsid', width:150, title:'商品编号'}
         ,{field:'goodsname', width:150, title:'商品名'}
-        ,{field:'typename', width:120, title:'商品类型'}
-        ,{field:'price', width:80, title:'价格'}
-        ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+        ,{ field: 'imgurl', title: '商品图',width: 120 , align: "center", templet: "#imgtmp"}
+        ,{field:'typename', width:140, title:'商品类型'}
+        ,{field:'price', width:100, title:'价格'}
+        ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:160}
       ]]
       ,page: true
       ,success:function (data) {
@@ -74,8 +78,32 @@
       error:function (data) {
         alert("失败");
         console.log(data);
-      }
+      },
+      done: function (res, curr, count) {
+      hoverOpenImg();//显示大图
+      $('table tr').on('click', function () {
+        $('table tr').css('background', '');
+        $(this).css('background', '<%=PropKit.use("config.properties").get("table_color")%>');
+      });
+    }
     });
+//显示图片
+    function hoverOpenImg() {
+      var img_show = null; // tips提示
+      $('td img').hover(function () {
+        var kd = $(this).width();
+        kd1 = kd * 6;          //图片放大倍数
+        kd2 = kd * 6 + 100;       //图片放大倍数
+        var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:" + kd1 + "px;'  margin=0px padding=0px/>";
+        img_show = layer.tips(img, this, {
+          tips: [2, 'rgba(41,41,41,.0)']
+          , area: [kd2 + 'px']
+        });
+      }, function () {
+        layer.close(img_show);
+      });
+      $('td img').attr('style', 'max-width:70px;display:block!important');
+    }
 
     //监听行工具事件
     table.on('tool(goodsType)', function(obj){
@@ -113,7 +141,7 @@
                 body.contents().find("#price").val(data.price);
                 body.contents().find("#goodstype").val(data.typename);
                 var iframe = window['layui-layer-iframe' + index];
-                iframe.setval(data.goodsid);
+                iframe.setval(data.goodsid,data.imgurl);
               }
             });
           });

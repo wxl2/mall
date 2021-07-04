@@ -91,9 +91,11 @@
 </body>
 <script>
   var goodsid;
+  var imgurl
   let myFile = null;
-  function setval(id1){
+  function setval(id1,id2){
       goodsid = id1;
+      imgurl = id2;
   }
   layui.use(['upload','form'], function() {
     var form = layui.form;
@@ -165,7 +167,7 @@
       params.imgurl='';
       if(myFile!=null) {
         fs1.append("file",myFile)
-        params.imgurl='ss';
+        params.imgurl=imgurl;
       }
       params.goodsid = goodsid;
       params.goodsname = $('#goodsName').val();

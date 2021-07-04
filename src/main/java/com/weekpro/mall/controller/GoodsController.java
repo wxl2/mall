@@ -173,9 +173,38 @@ public class GoodsController {
     @PostMapping("/changeGoods")
     public String changeGoods(@RequestParam(value ="file",required = false) MultipartFile file, @RequestParam("params")String params) {
         JSONObject obj = JSON.parseObject(params);
-        if((!obj.getString("imgurl").isEmpty())&&file==null)
+        String imgUrl = obj.getString("imgurl");
+        if(((!imgUrl.isEmpty())&&file==null)||
+                file!=null&&imgUrl.isEmpty())
             return "操作失败";
-        return "操作成功";
+        if(file!=null){
+            try{
+                Date now = new Date();
+                SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-");
+                String path = ResourceUtils.getURL("classpath:").getPath()+"static/images/goods";
+                String fileName = f.format(now)+file.getOriginalFilename();
+                imgUrl = fileName;
+                String filePath = path+'/'+fileName;
+                File dest = new File(filePath);
+                file.transferTo(dest);
+                File rmfile = new File(path+'/'+obj.getString("imgurl"));
+                if(rmfile.exists())
+                    rmfile.delete();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if(imgUrl.isEmpty())
+            imgUrl=null;
+        int typeid = 0;
+        String typeid_ = obj.getString("typeid");
+        if(!typeid_.isEmpty())
+            typeid = obj.getInteger("typeid");
+        if(goodsService.updateGoods(obj.getString("goodsname"),obj.getFloat("price"),
+                typeid,imgUrl,obj.getInteger("goodsid"))==0){
+            return "操作成功";
+        }
+        return "操作失败";
     }
 
 }

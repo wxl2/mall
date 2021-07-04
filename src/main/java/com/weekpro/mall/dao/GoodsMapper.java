@@ -2,10 +2,7 @@ package com.weekpro.mall.dao;
 
 
 import com.weekpro.mall.entity.Goods;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -29,4 +26,19 @@ public interface GoodsMapper {
     //删除商品
     @Delete("delete from goods where goodsid =  #{goodsId}")
     public void deleteGoods(@Param("goodsId") int goodsId);
+
+    //修改商品
+    @Update("<script> " +
+            "update goods  " +
+            "<trim prefix='set' suffixOverrides=','>" +
+            "<if test='typeid!=0'>typeid=#{typeid},</if>" +
+            "<if test='imgurl!=null'>imgurl=#{imgurl},</if>" +
+            "<if test='goodsname!=null'>goodsname=#{goodsname},</if>" +
+            "<if test='price!=null'>price=#{price},</if>" +
+            "</trim>" +
+            "where goodsid=#{goodsid}" +
+            "</script>")
+    public void updateGoods(@Param("goodsname") String goodsname,@Param("price")float price,
+                            @Param("typeid")int typeid,@Param("imgurl") String imgurl,
+                            @Param("goodsid")int goodsid);
 }

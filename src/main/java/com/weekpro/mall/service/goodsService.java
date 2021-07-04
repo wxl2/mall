@@ -2,6 +2,7 @@ package com.weekpro.mall.service;
 
 import com.weekpro.mall.dao.GoodsMapper;
 import com.weekpro.mall.entity.Goods;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,5 +63,16 @@ public class goodsService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public int updateGoods(String goodsname, float price, int typeid,
+						  String imgurl, int goodsid){
+		try {
+			goodsMapper.updateGoods(goodsname,price,typeid,imgurl,goodsid);
+		}catch (Exception e){
+			e.printStackTrace();
+			return -1;
+		}
+		return 0;
 	}
 }
