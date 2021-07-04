@@ -14,10 +14,10 @@
   <script type="text/javascript" src="../js/local.js" ></script>
 </head>
 <body style="background-color: white">
-<p align="center">商品</p>
+<p align="center">订单</p>
 <table class="layui-hide" id="goods" lay-filter="goodsType"></table>
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">确认发货</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">确认收货</a>
 </script>
 </body>
 <style>
@@ -38,19 +38,18 @@
     table.render({
       type:"GET",
       elem: '#goods'
-      ,url:'/getOrderStore'
+      ,url:'/getOrderUser'
       ,title: '订单'
       ,cols: [[
         {field:'orderid', width:150, title:'订单编号'}
-        ,{field:'goodsid', width:100, title:'商品编号'}
-        ,{field:'goodsname', width:100, title:'商品名'}
-        ,{ field: 'imgurl', title: '商品图',width: 100 , align: "center", templet: "#imgtmp" }
+        ,{field:'goodsname', width:150, title:'商品名'}
+        ,{ field: 'imgurl', title: '商品图',width: 120 , align: "center", templet: "#imgtmp" }
         ,{field:'typename', width:120, title:'商品类型'}
         ,{field:'price', width:120, title:'价格'}
-        ,{field:'username', width:150, title:'购买人'}
+        ,{field:'goodsuser', width:120, title:'商家'}
         ,{field:'orderstatus', width:120, title:'状态'}
         ,{field:'ordertine',width:200,title:'购买时间'}
-        ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:100}
+        ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:120}
       ]]
       ,page: true
       ,success:function (data) {
@@ -97,7 +96,7 @@
         str.orderid =data.orderid;
         $.ajax({
           type: "Post",
-          url: "/updateOrder",
+          url: "/updateOrderUser",
           data:JSON.stringify(str),
           contentType:'application/JSON',
           success: function (data) {

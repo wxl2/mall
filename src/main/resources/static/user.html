@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="./css/user.css"/>
     <link rel="stylesheet" type="text/css" href="./layui/css/layui.css"/>
     <link rel="stylesheet" type="text/css" href="./css/frameStyle.css"/>
+    <script src="./layui/layui.js" charset="utf-8"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 
 </head>
 <body>
@@ -36,7 +38,7 @@
                     <a href="#">所有商品</a>
                 </li>
                 <li>
-                    <a>我的订单</a>
+                    <a href="./user/myOrder.html">我的订单</a>
                 </li>
                 <li>
                     <a href="./store/StoreManger.html">店铺管理</a>
@@ -51,8 +53,8 @@
 <div style="width: 100%;text-align: center">
     <div class="layui-carousel" id="test10" style="float: none;text-align: center">
         <div carousel-item="">
-            <div><img src="./images/goods/2-6.png"></div>
-            <div><img src="./images/goods/2-6.png"></div>
+            <div onclick="f()"><img src="./images/goods/2-6.png"></div>
+            <div><img id="img1" src="./images/goods/2-6.png"></div>
             <div><img src="./images/goods/2-6.png"></div>
             <div><img src="./images/goods/2-6.png"></div>
             <div><img src="./images/goods/2-6.png"></div>
@@ -62,10 +64,33 @@
     </div>
 </div>
 
+<script>
+    var $ = layui.$,layer = layui.layer,form = layui.form;
+    $(function () {
+        window.onload = function () {
+            getGoods();
+        };
+    });
+    function getGoods(){
+        $.ajax({
+            text:"GET",
+            url:"/getGoods",
+            success: function (data) {
+                console.log(data);
+                //img1.src ="./images/goods/"+data.imgurl;
+                alert(data);
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
+    function f() {
+        alert("法克");
+    }
+</script>
 
 
-<script src="./layui/layui.js" charset="utf-8"></script>
-<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
     layui.use(['carousel', 'form'], function(){
         var carousel = layui.carousel
