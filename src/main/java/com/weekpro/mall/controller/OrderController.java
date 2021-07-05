@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,21 @@ public class OrderController {
             map.put("msg","ok");
             map.put("count",c_list.size());
             // 解析状态  0-> 未发货  1-> 已发货   2->已收货
-            map.put("data",c_list);
+            List<Map<String,Object>> datalist = new ArrayList<Map<String,Object>>();
+            for(int i = 0;i<c_list.size();i++){
+                Map<String,Object> map_ = new HashMap<String,Object>();
+                map_ =  c_list.get(i);
+                int status = (int) c_list.get(i).get("orderstatus");
+                if(status==0){
+                    map_.put("status", "待发货");
+                }else if(status==1){
+                    map_.put("status", "待收货");
+                }else{
+                    map_.put("status", "已收货");
+                }
+                datalist.add(map_);
+            }
+            map.put("data",datalist);
         }
         return map;
     }
@@ -67,7 +82,21 @@ public class OrderController {
             map.put("msg","ok");
             map.put("count",c_list.size());
             // 解析状态  0-> 未发货  1-> 发货
-            map.put("data",c_list);
+            List<Map<String,Object>> datalist = new ArrayList<Map<String,Object>>();
+            for(int i = 0;i<c_list.size();i++){
+                Map<String,Object> map_ = new HashMap<String,Object>();
+                map_ =  c_list.get(i);
+                int status = (int) c_list.get(i).get("orderstatus");
+                if(status==0){
+                    map_.put("status", "待发货");
+                }else if(status==1){
+                    map_.put("status", "待收货");
+                }else{
+                    map_.put("status", "已收货");
+                }
+                datalist.add(map_);
+            }
+            map.put("data",datalist);
         }
         return map;
     }

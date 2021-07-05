@@ -31,7 +31,6 @@ public class OrderService {
     public int updateOrder(int orderid) {
         try {
             orderMapping.updateOrder(orderid);
-            ;
             return 0;
         } catch (Exception e) {
             e.printStackTrace();
