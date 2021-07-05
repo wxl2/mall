@@ -80,6 +80,18 @@ public class OrderController {
         if(test==-1){
             return "收货失败";
         }else return "已收货";
-
+    }
+    @PostMapping("/report")
+    public Map<String,Object> getReport(@RequestBody String text){
+        Map<String,Object> map = new HashMap<String,Object>();
+        String[] date = text.split("~");
+        Map<String,Object> res = orderService.getGraphical(date[0].trim(),date[1].trim());
+        if (res == null) {
+            map.put("code",-1);
+            return map;
+        }
+        map.put("code",0);
+        map.put("data",res);
+        return  map;
     }
 }

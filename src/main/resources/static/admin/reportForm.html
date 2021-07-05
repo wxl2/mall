@@ -11,8 +11,94 @@
 
     <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
     <script type="text/javascript" src="../layui/layui.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../js/report.js"></script>
+    <script type="text/javascript" src="../js/echarts.min.js"></script>
 </head>
+<style>
+
+</style>
 <body>
-<p>报表</p>
+<div class="layui-row">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary" id = "thisweek">本周</button>
+        <button type="button" class="layui-btn layui-btn-primary" id = "lastweek">上周</button>
+        <button type="button" class="layui-btn layui-btn-primary" id = "thismonth">本月</button>
+        <button type="button" class="layui-btn layui-btn-primary" id = "lastmonth">上月</button>
+    </div>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" id="time" placeholder="  ">
+    </div>
+</div>
+<div class="layui-row">
+    <table class="layui-hide" id="toptable"></table>
+</div>
+<div class="layui-row">
+    <div id="storetype" style="width: 50%;height:400px; float: left"></div>
+    <div id="storemoney" style="width: 50%;height:400px;float: left"></div>
+</div>
+<div class="layui-row">
+    <table class="layui-hide" id="bottomtable"></table>
+</div>
+<script>
+    $(function () {
+        $('#thisweek').click(function () {
+            $(this).removeClass("layui-btn-primary");
+            $('#lastweek').addClass("layui-btn-primary");
+            $('#lastmonth').addClass("layui-btn-primary");
+            $('#thismonth').addClass("layui-btn-primary");
+            var time_ = dateRange.getThisWeek();
+            var  data = time_[0]+' ~ '+time_[1];
+            $('#time').val(data);
+            cls(data);
+        });
+        $('#lastweek').click(function () {
+            $(this).removeClass("layui-btn-primary");
+            $('#thisweek').addClass("layui-btn-primary");
+            $('#lastmonth').addClass("layui-btn-primary");
+            $('#thismonth').addClass("layui-btn-primary");
+            var time_ = dateRange.getLastWeek();
+            var  data = time_[0]+' ~ '+time_[1];
+            $('#time').val(data);
+            cls(data);
+        })
+        $('#lastmonth').click(function () {
+            $(this).removeClass("layui-btn-primary");
+            $('#lastweek').addClass("layui-btn-primary");
+            $('#thisweek').addClass("layui-btn-primary");
+            $('#thismonth').addClass("layui-btn-primary");
+            var time_ = dateRange.getLastMonth();
+            var  data = time_[0]+' ~ '+time_[1];
+            $('#time').val(data);
+            cls(data);
+        })
+        $('#thismonth').click(function () {
+            $(this).removeClass("layui-btn-primary");
+            $('#lastweek').addClass("layui-btn-primary");
+            $('#lastmonth').addClass("layui-btn-primary");
+            $('#thisweek').addClass("layui-btn-primary");
+            var time_ = dateRange.getThisMonth();
+            var  data = time_[0]+' ~ '+time_[1];
+            $('#time').val(data);
+            cls(data);
+        })
+    });
+    layui.use('laydate',function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#time',
+            range: '~',
+            done: function(value){
+                $('#lastweek').addClass("layui-btn-primary");
+                $('#lastmonth').addClass("layui-btn-primary");
+                $('#thisweek').addClass("layui-btn-primary");
+                $('#thismonth').addClass("layui-btn-primary");
+                cls(value);
+            }
+        });
+    });
+
+    window.onload =function (){$('#thisweek').click();}
+</script>
 </body>
 </html>

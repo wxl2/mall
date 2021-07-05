@@ -14,41 +14,30 @@
     <script type="text/javascript" src="../js/local.js" ></script>
 </head>
 <body style="background-color: white">
-<p align="center">商品列表</p>
-<table class="layui-hide" id="goods" lay-filter="goodsType"></table>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
+    <p align="center">商品列表</p>
+    <table class="layui-hide" id="goods" lay-filter="goodsType"></table>
 </body>
-<style>
-    .typecss{
-        width: 300px;
-        height: 40px;
-        padding-left: 130px;
-        padding-top: 30px;
-    }
-</style>
+<script type="text/html" id="imgtmp">
+    <img src="../images/goods/{{d.imgurl}}" width="28" height="28"  />
+</script>
 <script>
     var $ = layui.$,layer = layui.layer,form = layui.form;
-    var str = {};
-    $(function () {
-        window.onload = function () {
-            setRole();
-        };
-    });
-    function setRole() {
-        //载入 更改用户身份
-        $.ajax({
-            type: "GET",
-            url: "/getuser",
-            success: function (data) {
-                str.username = data.username;
-            },
-            error: function () {
-                alert("error");
-            }
+    //显示图片
+    function hoverOpenImg() {
+        var img_show = null; // tips提示
+        $('td img').hover(function () {
+            var kd = $(this).width();
+            kd1 = kd * 6;          //图片放大倍数
+            kd2 = kd * 6 + 100;       //图片放大倍数
+            var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:" + kd1 + "px;'  margin=0px padding=0px/>";
+            img_show = layer.tips(img, this, {
+                tips: [2, 'rgba(41,41,41,.0)']
+                , area: [kd2 + 'px']
+            });
+        }, function () {
+            layer.close(img_show);
         });
+        $('td img').attr('style', 'max-width:70px;display:block!important');
     }
 
     layui.use('table', function(){
@@ -58,14 +47,13 @@
             elem: '#goods'
             ,url:'/getGoods'
             ,title: '商品'
-            ,data: JSON.stringify(str)
             ,cols: [[
-                {field:'goodsid', width:150, title:'商品编号'}
-                ,{field:'goodsname', width:150, title:'商品名'}
-                ,{field:'typename', width:120, title:'商品类型'}
-                ,{field:'price', width:80, title:'价格'}
-                ,{field:'goodsuser', width:150, title:'价格'}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                {field:'goodsid',  width:'10%',title:'商品编号'}
+                ,{field:'goodsname', width:'20%', title:'商品名'}
+                ,{ field: 'imgurl', title: '商品图',width:'20%' , align: "center", templet: "#imgtmp"}
+                ,{field:'typename', width:'20%', title:'商品类型'}
+                ,{field:'price', width:'15%', title:'价格'}
+                ,{field:'goodsuser', width:'15%', title:'所属商家'}
             ]]
             ,page: true
             ,success:function (data) {
@@ -75,25 +63,15 @@
             error:function (data) {
                 alert("失败");
                 console.log(data);
+            },
+            done: function (res, curr, count) {
+                hoverOpenImg();//显示大图
+                $('table tr').on('click', function () {
+                    $('table tr').css('background', '');
+                    $(this).css('background', '<%=PropKit.use("config.properties").get("table_color")%>');
+                });
             }
         });
-
-        //监听行工具事件
-        table.on('tool(goodsType)', function(obj){
-            var data = obj.data;
-            var $ = layui.$, layer = layui.layer, form = layui.form;
-            var params = {};
-            params.goodsid = data.goodsid;
-            if(obj.event === 'del'){
-                postAjax(params,'/deleteGoods','text','text/plain');
-                table.reload('goodsType', {});
-                obj.del();
-                layer.close(index);
-            } else if(obj.event === 'edit'){
-                typeDiv(data.id,'编辑');
-            }
-        });
-
     });
 </script>
 </html>

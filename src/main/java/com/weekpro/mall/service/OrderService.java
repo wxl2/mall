@@ -4,6 +4,8 @@ import com.weekpro.mall.dao.OrderMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +62,39 @@ public class OrderService {
             e.printStackTrace();
             return -1;
         }
+    }
 
+    public Map<String,Object> getGraphical(String start,String end){
+        Map<String,Object> res = new HashMap<String, Object>();
+        try {
+            Map<String,Object> top = new HashMap<String, Object>();
+            List<Map<String,Object>> echars = orderMapping.selectEcharsData(start,end);
+            if(echars == null)
+                res.put("echars",0);
+            List<Map<String,Object>> buttom = orderMapping.selectOrderBytime(start,end);
+            if(buttom == null){
+                res.put("buttom",0);
+                top.put("ordernum",0);
+            }
+            List<Map<String,Object>> topCount = orderMapping.selectUserCount(start,end);
+            Map<String,Object> moneySum = orderMapping.selectMoneySum(start,end);
+            if(topCount == null)
+                top.put("orderusernum",0);
+            if(moneySum==null)
+                top.put("money",0);
+            List<Map<String,Object>> top_list = new ArrayList<Map<String, Object>>();
+            res.put("echars",echars);
+            top.put("ordernum",buttom.size());
+            top.put("orderusernum",topCount.size());
+            if(moneySum != null)
+                top.put("money",moneySum.get("money"));
+            top_list.add(top);
+            res.put("top",top_list);
+            res.put("bottom",buttom);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return res;
     }
 }
