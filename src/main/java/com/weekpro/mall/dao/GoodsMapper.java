@@ -14,8 +14,8 @@ public interface GoodsMapper {
     @Select("select goods.*,goodstype.typename from goods left join goodstype on goods.typeid = goodstype.typeid where goodsuser = #{username}")
     public List<Map<String,Object>> getGoodsUser(@Param("username") String username);
 
-    //查询所有商品
-    @Select("select goods.*,goodstype.typename from goods left join goodstype on goods.typeid = goodstype.typeid")
+    //查询所limit条商品
+    @Select("select goods.*,goodstype.typename from goods left join goodstype on goods.typeid = goodstype.typeid ")
     public List<Map<String,Object>> getGoods();
 
     //根据商品id查询商品信息

@@ -207,10 +207,44 @@ public class GoodsController {
     //商品展示
     @ResponseBody
     @RequestMapping(value="/getProductPage")
-    public Map<String, Object> getProductPage(@RequestParam("page")Integer page,
-                                              @RequestParam("limit")Integer limit){
+    public Map<String, Object> getProductPage(@RequestParam("page")int page,
+                                              @RequestParam("limit")int limit){
         Map<String,Object> map = new HashMap<String,Object>();
+        // 返回所有商品数据 c_list
         List<Map<String,Object>> c_list = goodsService.getGoods();
+        if(c_list == null){
+            map.put("code","-1");
+            map.put("msg","暂无数据");
+            map.put("count",0);
+            map.put("data","[]");
+        }
+        else{
+            map.put("code","0");
+            map.put("msg","ok");
+            //   根据参数page,limit 返回数据，分页
+            List<Map<String,Object>> datalist = new ArrayList<Map<String,Object>>();
+            //int i;
+      /*      int i;
+            for( i = 0;i < 8 && (page*limit+i-8<=c_list.size());i++){
+                Map<String,Object> map_ =  c_list.get(page*limit+i-8);
+                datalist.add(map_);
+            }*/
+            for(int i=(page-1)*8;(i<page*limit)&&i<c_list.size();i++){
+                Map<String,Object> map_ =  c_list.get(i);
+                datalist.add(map_);
+            }
+            map.put("count",c_list.size());
+                map.put("data",datalist);
+        }
+            return map;
+    }
+    // 通过商品id获取商品信息
+    @PostMapping("/idGetGoods")
+    public Map<String,Object> idGetGoods(@RequestBody String goodsid){
+        JSONObject obj = JSON.parseObject(goodsid);
+        int test = obj.getInteger("goodsid");
+        Map<String,Object> c_list = goodsService.idGetGoods(test);
+        Map<String,Object> map = new HashMap<String,Object>();
         if(c_list == null){
             map.put("code","-1");
             map.put("msg","暂无数据");
@@ -225,13 +259,10 @@ public class GoodsController {
         }
         return map;
     }
-    // 通过商品id获取商品信息
-    @PostMapping("/idGetGoods")
-    public Map<String,Object> idGetGoods(@RequestBody String goodsid){
-        JSONObject obj = JSON.parseObject(goodsid);
-        int test = obj.getInteger("goodsid");
-
-        Map<String,Object> c_list = goodsService.idGetGoods(test);
+    // 轮播图的随机图
+    @GetMapping("/randomGoods")
+    public Map<String,Object> randomGoods(){
+        List<Map<String,Object>> c_list = goodsService.getGoods();
         Map<String,Object> map = new HashMap<String,Object>();
         if(c_list == null){
             map.put("code","-1");
@@ -242,8 +273,14 @@ public class GoodsController {
         else{
             map.put("code","0");
             map.put("msg","ok");
-            map.put("count",c_list.size());
-            map.put("data",c_list);
+            // 随机
+            List<Map<String,Object>> datalist = new ArrayList<Map<String,Object>>();
+            for(int i=0;i<c_list.size()&&i<4;i++){
+                int num= (int)(Math.random()*10*c_list.size())%c_list.size();
+                datalist.add(c_list.get(num));
+            }
+            map.put("count",datalist.size());
+            map.put("data",datalist);
         }
         return map;
     }
