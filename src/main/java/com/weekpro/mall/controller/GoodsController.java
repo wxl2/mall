@@ -24,10 +24,8 @@ import java.util.Map;
 public class GoodsController {
     @Autowired
     private typeService typeService;
-
     @Autowired
     private goodsService goodsService;
-
 
     @GetMapping("/getTypeList")
     public Map<String,Object> getTypeList(){
@@ -54,7 +52,6 @@ public class GoodsController {
         }
         return map;
     }
-
     // 删除 action:0 编辑 action:1 增加:2
     @PostMapping("/mangerType")
     public String mangerType(@RequestBody String text){
@@ -76,7 +73,6 @@ public class GoodsController {
         }
         return "操作失败";
     }
-
     // 添加商品
     @PostMapping("/addGoods")
     public Map<String,Object> addGoods(@RequestParam("file") MultipartFile file, @RequestParam("params")String params,
@@ -121,7 +117,6 @@ public class GoodsController {
         }
         return map;
     }
-
     //删除商品deleteGoods
     @PostMapping("/deleteGoods")
     public String deleteGoods(@RequestBody String text){
@@ -169,7 +164,6 @@ public class GoodsController {
         }
         return map;
     }
-
     @PostMapping("/changeGoods")
     public String changeGoods(@RequestParam(value ="file",required = false) MultipartFile file, @RequestParam("params")String params) {
         JSONObject obj = JSON.parseObject(params);
@@ -205,5 +199,49 @@ public class GoodsController {
             return "操作成功";
         }
         return "操作失败";
+    }
+
+    //商品展示
+    @ResponseBody
+    @RequestMapping(value="/getProductPage")
+    public Map<String, Object> getProductPage(@RequestParam("page")Integer page,
+                                              @RequestParam("limit")Integer limit){
+        Map<String,Object> map = new HashMap<String,Object>();
+        List<Map<String,Object>> c_list = goodsService.getGoods();
+        if(c_list == null){
+            map.put("code","-1");
+            map.put("msg","暂无数据");
+            map.put("count",0);
+            map.put("data","[]");
+        }
+        else{
+            map.put("code","0");
+            map.put("msg","ok");
+            map.put("count",c_list.size());
+            map.put("data",c_list);
+        }
+        return map;
+    }
+    // 通过商品id获取商品信息
+    @PostMapping("/idGetGoods")
+    public Map<String,Object> idGetGoods(@RequestBody String goodsid){
+        JSONObject obj = JSON.parseObject(goodsid);
+        int test = obj.getInteger("goodsid");
+
+        Map<String,Object> c_list = goodsService.idGetGoods(test);
+        Map<String,Object> map = new HashMap<String,Object>();
+        if(c_list == null){
+            map.put("code","-1");
+            map.put("msg","暂无数据");
+            map.put("count",0);
+            map.put("data","[]");
+        }
+        else{
+            map.put("code","0");
+            map.put("msg","ok");
+            map.put("count",c_list.size());
+            map.put("data",c_list);
+        }
+        return map;
     }
 }

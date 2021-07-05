@@ -1,5 +1,6 @@
 package com.weekpro.mall.service;
 
+import com.weekpro.mall.entity.Order;
 import com.weekpro.mall.dao.OrderMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -96,5 +97,22 @@ public class OrderService {
             return null;
         }
         return res;
+    }
+
+    //添加订单
+    public int addOrder(int goodsid,String username) {
+        try {
+            //生成订单编号
+            int orderid_ = (int)(Math.random()*100000000);
+            String orderid = ""+orderid_;
+            //插入数据
+            int orderstatus = 0;
+            orderMapping.addOrder(orderid,goodsid,username,orderstatus);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return 0;
+
     }
 }

@@ -12,7 +12,7 @@
     <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 
 </head>
-<body>
+<body style=" overflow-y:auto; overflow-x:auto;height:1500px;"  >
 <!------------------------------head------------------------------>
 <div class="head1">
     <div class="clearfix" style="width: 100%">
@@ -47,13 +47,14 @@
         </div>
     </div>
 </div>
+<div style="width: 100%">
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
     <legend>填充轮播元素 - 以图片为例</legend>
 </fieldset>
 <div style="width: 100%;text-align: center">
-    <div class="layui-carousel" id="test10" style="float: none;text-align: center">
+    <div class="layui-carousel" id="test10" style="float: none;text-align: center;display: inline-block">
         <div carousel-item="">
-            <div onclick="f()"><img src="./images/goods/2-6.png"></div>
+            <div><img src="./images/goods/2-6.png"></div>
             <div><img id="img1" src="./images/goods/2-6.png"></div>
             <div><img src="./images/goods/2-6.png"></div>
             <div><img src="./images/goods/2-6.png"></div>
@@ -63,34 +64,83 @@
         </div>
     </div>
 </div>
+<div style="margin-top:70px;text-align: center" id="product" ></div>
+<div style="margin-top:20px;width: 100%;text-align: center">
+    <div  id="layuipage" ></div>
+</div>
 
+ </div>
+</body>
+
+<!--//  加载商品-->
 <script>
-    var $ = layui.$,layer = layui.layer,form = layui.form;
-    $(function () {
-        window.onload = function () {
-            getGoods();
-        };
+        layui.use(['jquery', 'layer', 'laypage'], function () {
+        var $ = layui.jquery,
+        layer = layui.layer,
+        laypage = layui.laypage;
+
+        var page = 1;//当前页
+        var limit = 8;//每页显示的数目
+        var resCount, resData ;
+        var resPage = renderPage1();
+        //渲染展示商品的html页面
+        function renderProductHtml(data){
+        var str = "";//用来存储html内容
+        if(data.length > 0){
+        $.each(data, function(v, o){  // 遍历
+        str += "<div onclick='f"+v+"()' style='margin:auto; margin:0px 15px 80px 15px ;  width:150px; height:120px; display: inline-block; text-align:center'>" +
+               "<div><img  alt='' src='"+"./images/goods/"+o.imgurl+"' width='150px' height='150px'/></div>";
+        str += "<div style='text-align:left'>" +
+               "<div><label>商品名称:</label><span>"+o.goodsname+"</span></div>";
+        str += "<div><label>价格:</label><span style='color:#FF3030;'>￥"+o.price+"</span></div>" +
+               "<div style='display: none'><input id='goods"+v+"' value='"+o.goodsid+"'/></div></div></div>";
+        if(v==3) str+="<br/>";
     });
-    function getGoods(){
+        $("#product").html(str);
+
+    }
+
+    }
+
+
+        //同步加载商品数据
+        function renderProduct(page, limit){
         $.ajax({
-            text:"GET",
-            url:"/getGoods",
-            success: function (data) {
-                console.log(data);
-                //img1.src ="./images/goods/"+data.imgurl;
-                alert(data);
-            },
-            error: function () {
-                alert("error");
-            }
-        });
+        async: false,
+        url: '/getProductPage',
+        data: {"page": page, "limit": limit},
+        dataType: 'json',
+        success: function(result){
+        console.info(result);
+        resCount = result.count;
+        resData = result.data;
+        renderProductHtml(resData);
     }
-    function f() {
-        alert("法克");
+    });
     }
+        //分页的完整功能
+        function renderPage1(){
+        renderProduct(page, limit);
+        laypage.render({
+        elem: 'layuipage'
+        ,count: resCount
+        ,limit: limit
+        ,limits: 8
+        ,curr: page
+        ,theme: '#FFB800'
+        ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+        ,jump: function(obj, first){
+        console.info(obj);
+        page = obj.curr;
+        if(!first){
+        renderProduct(page, limit);
+    }
+    }
+    });
+    }
+    });
 </script>
-
-
+    <!--// 轮播-->
 <script>
     layui.use(['carousel', 'form'], function(){
         var carousel = layui.carousel
@@ -134,6 +184,18 @@
         };
     });
 </script>
+<!--  八个商品信息
+// 发送数据跳转页面-->
+<script>
+    function f0() {location.href='goods.html?'+'goodsid=' + encodeURI(goods0.value);}
+    function f1() {location.href='goods.html?'+'goodsid=' + encodeURI(goods1.value);}
+    function f2() {location.href='goods.html?'+'goodsid=' + encodeURI(goods2.value);}
+    function f3() {location.href='goods.html?'+'goodsid=' + encodeURI(goods3.value);}
+    function f4() {location.href='goods.html?'+'goodsid=' + encodeURI(goods4.value);}
+    function f5() {location.href='goods.html?'+'goodsid=' + encodeURI(goods5.value);}
+    function f6() {location.href='goods.html?'+'goodsid=' + encodeURI(goods6.value);}
+    function f7() {location.href='goods.html?'+'goodsid=' + encodeURI(goods7.value);}
+    function f8() {location.href='goods.html?'+'goodsid=' + encodeURI(goods8.value);}
+</script>
 
-</body>
 </html>

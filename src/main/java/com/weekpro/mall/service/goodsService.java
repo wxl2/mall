@@ -19,7 +19,7 @@ import java.util.Map;
 @Service("goodsService")
 public class goodsService {
 	@Autowired
-	private GoodsMapper goodsMapper;
+	private GoodsMapper 	goodsMapper;
 
 	// 添加商品
 	public int addGoods(Goods goods){
@@ -54,7 +54,8 @@ public class goodsService {
 			return null;
 		}
 
-	}	//查询user商品
+	}
+	//查询user商品
 	public List<Map<String,Object>> getGoodsUser(String username){
 		try{
 			List<Map<String,Object>> list = goodsMapper.getGoodsUser(username);
@@ -74,5 +75,15 @@ public class goodsService {
 			return -1;
 		}
 		return 0;
+	}
+	// 根据商品id查询商品信息
+	public Map<String,Object> idGetGoods(int goodsid){
+		try{
+			Map<String,Object> map=  goodsMapper.idGetGoods(goodsid);
+			return map;
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.weekpro.mall.dao;
 
 
+import com.weekpro.mall.entity.Order;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -45,6 +46,10 @@ public interface OrderMapping {
     @Select(" SELECT sum(goods.price)money from goods,order_ WHERE goods.goodsid = order_.goodsid AND " +
             "ordertime BETWEEN #{startTime} and #{endTime}")
     public Map<String,Object> selectMoneySum(@Param("startTime") String start,@Param("endTime") String end);
+
+    // 添加订单
+    @Insert("INSERT INTO `mall`.`order_`(`orderid`, `goodsid`, `username`, `orderstatus`) VALUES (#{orderid},#{goodsid},#{username},#{orderstatus})")
+    public void addOrder(@Param("orderid")String orderid,@Param("goodsid")int goodsid,@Param("username")String username,@Param("orderstatus")int orderstatus);
 
 }
 

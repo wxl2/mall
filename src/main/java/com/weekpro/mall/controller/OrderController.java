@@ -94,4 +94,17 @@ public class OrderController {
         map.put("data",res);
         return  map;
     }
+    //添加订单
+    @PostMapping("/addOrder")
+    public String addOrder(HttpServletRequest request,@RequestBody String goodsid){
+        String username = (String) request.getSession().getAttribute("username");
+        JSONObject id = JSON.parseObject(goodsid);
+        int goodsid_ = id.getInteger("goodsid");
+        int test = orderService.addOrder(goodsid_,username);
+        if(test == -1){
+            return "添加失败";
+        }else return "添加成功";
+
+
+    }
 }

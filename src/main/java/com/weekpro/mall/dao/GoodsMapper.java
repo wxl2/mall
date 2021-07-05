@@ -18,6 +18,10 @@ public interface GoodsMapper {
     @Select("select goods.*,goodstype.typename from goods left join goodstype on goods.typeid = goodstype.typeid")
     public List<Map<String,Object>> getGoods();
 
+    //根据商品id查询商品信息
+    @Select("select goods.*,goodstype.typename from goods,goodstype where goods.goodsid = #{goodsid} and goods.typeid = goodstype.typeid")
+    public Map<String,Object> idGetGoods(int goodsid);
+
     //添加商品
     @Insert("INSERT INTO `goods`(`goodsid`, `goodsname`, `price`, `typeid`, `imgurl`, `goodsuser`) VALUES (#{goodsid},#{goodsname}," +
             "#{price},#{typeid},#{imgurl},#{goodsuser})")
