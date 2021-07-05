@@ -52,6 +52,9 @@ public class GoodsController {
         }
         return map;
     }
+
+
+    //类别管理
     // 删除 action:0 编辑 action:1 增加:2
     @PostMapping("/mangerType")
     public String mangerType(@RequestBody String text){
@@ -67,7 +70,7 @@ public class GoodsController {
                 return "操作成功";
         }else{
             String typeName = obj.getString("data");
-            int typeId = (int)(Math.random()*9+1)*1000;
+            int typeId = (int)(Math.random()*9000)+1000;
             if(typeService.insertType(new typeStore(typeId,typeName)) == 0)
                 return "操作成功";
         }
