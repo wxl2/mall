@@ -27,6 +27,7 @@ public class GoodsController {
     @Autowired
     private goodsService goodsService;
 
+    //显示已有类别
     @GetMapping("/getTypeList")
     public Map<String,Object> getTypeList(){
         Map<String,Object> map = new HashMap<String,Object>();
@@ -52,7 +53,6 @@ public class GoodsController {
         }
         return map;
     }
-
 
     //类别管理
     // 删除 action:0 编辑 action:1 增加:2

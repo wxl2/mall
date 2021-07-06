@@ -114,7 +114,7 @@ function typeDiv(actionId,divTitle) {
         btn1:function (index,layero) {
             //提交回调
             var typeName = $('#typeStore').val();
-            if(typeStore.length<=0){
+            if(typeName.length<=0){
                 layer.alert("类别不能为空");
                 return false;
             }
@@ -146,6 +146,7 @@ function typeDiv(actionId,divTitle) {
     });
 }
 
+//分页
 function paging(res) {
     var dataList = res.data;
     var total = res.count;

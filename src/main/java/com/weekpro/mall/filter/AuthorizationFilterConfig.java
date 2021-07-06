@@ -14,7 +14,7 @@ import java.util.List;
  * @packageName com.weekpro.mall.filter
  * TODO
  */
-//@Configuration
+@Configuration
 public class AuthorizationFilterConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
