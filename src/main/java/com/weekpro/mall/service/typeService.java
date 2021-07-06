@@ -2,7 +2,6 @@ package com.weekpro.mall.service;
 
 import com.weekpro.mall.dao.typeMapper;
 import com.weekpro.mall.entity.GoodsType;
-import com.weekpro.mall.entity.typeStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -14,9 +13,9 @@ public class typeService {
     private typeMapper typeMapper_;
 
     // 导出所有的类别信息
-    public List<typeStore> getTypeList(){
+    public List<GoodsType> getTypeList(){
         try{
-            List<typeStore> list = typeMapper_.getTypeList();
+            List<GoodsType> list = typeMapper_.getTypeList();
             return list;
         }catch (Exception e){
             e.printStackTrace();
@@ -25,9 +24,9 @@ public class typeService {
     }
 
     // 插入一条类别信息
-    public int insertType(typeStore typestore){
+    public int insertType(GoodsType goodsType){
         try{
-            typeMapper_.insertType(typestore);
+            typeMapper_.insertType(goodsType);
         }catch (Exception e){
             e.printStackTrace();
             return -1;
@@ -35,9 +34,9 @@ public class typeService {
         return 0;
     }
     // 删除商品类别
-    public int typeDelect(int typeId){
+    public int typeDelete(int typeId){
         try{
-            typeMapper_.delectType(typeId);
+            typeMapper_.deleteType(typeId);
         }catch (Exception e){
             e.printStackTrace();
             return -1;
@@ -46,9 +45,9 @@ public class typeService {
     }
 
     //更改商品类别
-    public int typeUpdate(typeStore store){
+    public int typeUpdate(GoodsType type){
         try {
-            typeMapper_.updateType(store);
+            typeMapper_.updateType(type);
         }catch (Exception e){
             e.printStackTrace();
             return -1;
@@ -57,13 +56,13 @@ public class typeService {
     }
 
     //根据typeid查询类别名称
-    public String getTypeName(int typeid){
-        try {
-            GoodsType goodsType = typeMapper_.getTypeName(typeid);
-            return goodsType.getTypeName();
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    public String getTypeName(int typeid){
+//        try {
+//            GoodsType goodsType = typeMapper_.getTypeName(typeid);
+//            return goodsType.getTypeName();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 }

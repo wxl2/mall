@@ -3,7 +3,7 @@ package com.weekpro.mall.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.weekpro.mall.entity.Goods;
-import com.weekpro.mall.entity.typeStore;
+import com.weekpro.mall.entity.GoodsType;
 import com.weekpro.mall.service.goodsService;
 import com.weekpro.mall.service.typeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class GoodsController {
     @GetMapping("/getTypeList")
     public Map<String,Object> getTypeList(){
         Map<String,Object> map = new HashMap<String,Object>();
-        List<typeStore> c_list = typeService.getTypeList();
+        List<GoodsType> c_list = typeService.getTypeList();
         if(c_list == null){
             map.put("code","-1");
             map.put("msg","暂无类型");
@@ -45,7 +45,7 @@ public class GoodsController {
             for(int i = 0;i<c_list.size();i++){
                 Map<String,Object> map_ = new HashMap<String,Object>();
                 map_.put("id", c_list.get(i).getTypeId());
-                map_.put("type",c_list.get(i).getTypename());
+                map_.put("type",c_list.get(i).getTypeName());
                 datalist.add(map_);
             }
             map.put("data",datalist);
@@ -61,17 +61,17 @@ public class GoodsController {
         JSONObject obj = JSON.parseObject(text);
         int action = obj.getInteger("action");
         if(action == 0){
-            if(typeService.typeDelect(obj.getInteger("data")) == 0)
+            if(typeService.typeDelete(obj.getInteger("data")) == 0)
                 return "操作成功";
         }else if (action == 1){
             JSONObject data = obj.getJSONObject("data");
-            if(typeService.typeUpdate(new typeStore(data.getInteger("id"),
+            if(typeService.typeUpdate(new GoodsType(data.getInteger("id"),
                     data.getString("type"))) == 0)
                 return "操作成功";
         }else{
             String typeName = obj.getString("data");
             int typeId = (int)(Math.random()*9000)+1000;
-            if(typeService.insertType(new typeStore(typeId,typeName)) == 0)
+            if(typeService.insertType(new GoodsType(typeId,typeName)) == 0)
                 return "操作成功";
         }
         return "操作失败";

@@ -13,24 +13,15 @@ import lombok.NoArgsConstructor;
 
 
 public class GoodsType {
-	private int id;					//排序id
-	private int typeid;				//类别id
+	private int typeId;				//类别id
 	private String typeName;		//类别名
 
-	public int getId() {
-		return id;
+	public int getTypeId() {
+		return typeId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getTypeid() {
-		return typeid;
-	}
-
-	public void setTypeid(int typeid) {
-		this.typeid = typeid;
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
 	public String getTypeName() {
@@ -41,9 +32,8 @@ public class GoodsType {
 		this.typeName = typeName;
 	}
 
-	public GoodsType(int id, int typeid, String typeName) {
-		this.id = id;
-		this.typeid = typeid;
+	public GoodsType(int typeId, String typeName) {
+		this.typeId = typeId;
 		this.typeName = typeName;
 	}
 
