@@ -83,11 +83,12 @@
                 type: "GET",
                 url: "/randomGoods",
                 success: function (data) {
+                    alert("jiazai");
                     var str ="";
                     str+="<div><img src='./images/goods/"+data.data[0].imgurl+"'></div>"+
                         "<div><img src='./images/goods/"+data.data[1].imgurl+"'></div>"+
-                        "<div><img src='./images/goods/"+data.data[2].imgurl+"'></div>"+
-                        "<div><img src='./images/goods/"+data.data[3].imgurl+"'></div>";
+                        "<div><img src='./images/goods/"+data.data[2].imgurl+"'></div>";
+                       // "<div><img src='./images/goods/"+data.data[3].imgurl+"'></div>";
                     $("#picture").append(str);
                     ins.reload({
                         elem: '#test10'

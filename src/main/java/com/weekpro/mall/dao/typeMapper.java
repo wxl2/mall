@@ -15,7 +15,7 @@ public interface typeMapper {
     //删除类别
     @Delete("delete from goodstype where typeid =  #{typeId}")
     public void deleteType(@Param("typeId") int typeId);
-    //修改类别名和类别id
+    //修改类别名
     @Update("update goodstype set typename=#{typeName} where typeid = #{typeId}")
     public void updateType(GoodsType type);
 

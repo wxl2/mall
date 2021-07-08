@@ -18,13 +18,13 @@
     <table class="layui-hide" id="goods" lay-filter="goodsType"></table>
 </body>
 <script type="text/html" id="imgtmp">
-    <img src="../images/goods/{{d.imgurl}}" width="28" height="28"  />
+        <img src="../images/goods/{{d.imgurl}}" width="28" height="28"  />
 </script>
 <script>
     var $ = layui.$,layer = layui.layer,form = layui.form;
-    //显示图片
+    // 显示图片
     function hoverOpenImg() {
-        var img_show = null; // tips提示
+        var img_show = null;
         $('td img').hover(function () {
             var kd = $(this).width();
             kd1 = kd * 6;          //图片放大倍数
@@ -50,12 +50,13 @@
             ,cols: [[
                 {field:'goodsid',  width:'10%',title:'商品编号'}
                 ,{field:'goodsname', width:'20%', title:'商品名'}
-                ,{ field: 'imgurl', title: '商品图',width:'20%' , align: "center", templet: "#imgtmp"}
+                ,{field: 'imgurl', title: '商品图',width:'20%' , align: "center", templet: "#imgtmp"}
                 ,{field:'typename', width:'20%', title:'商品类型'}
                 ,{field:'price', width:'15%', title:'价格'}
                 ,{field:'goodsuser', width:'15%', title:'所属商家'}
             ]]
             ,page: true
+            ,parseData:paging
             ,success:function (data) {
                 alert("成功");
                 console.log(data);
